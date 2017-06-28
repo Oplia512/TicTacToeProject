@@ -10,7 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Michal_Partacz on 27.06.2017.
+ * @author Michal_Partacz
+ * @since 27.06.2017.
  */
 public class Controller {
     Set<GameButton> gameButtons = new HashSet<>();
