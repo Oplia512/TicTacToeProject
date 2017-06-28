@@ -20,6 +20,9 @@ public class Controller {
     int boardWidth = 0;
     int boardHeight = 0;
 
+    public void onStartGameButtonClicked() {
+    }
+
     void startGame() {
         Board board = new Board();
         BoardInitializer boardInitializer = new BoardInitializer(boardHeight, boardWidth);
