@@ -22,7 +22,6 @@
 hs_err_pid*
 
 .idea/
-src/main/main.iml
+*.iml
 target/
 out/
-TicTacToe.iml
