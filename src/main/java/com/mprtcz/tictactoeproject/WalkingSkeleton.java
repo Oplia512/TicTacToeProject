@@ -6,8 +6,9 @@ import java.util.Scanner;
  * Created by Michal_Partacz on 28.06.2017.
  */
 public class WalkingSkeleton {
+
     public static void main(String[] args) {
-        int[][] board = new int[3][3];
+        int[][] board = new int[5][3];
         System.out.println("the board is ");
         drawABoard(board);
         boolean gameRunning = true;
@@ -15,7 +16,7 @@ public class WalkingSkeleton {
         while (gameRunning) {
 
             String typedInCoordinates = getCoordinatesFromTheUser(currentPlayer);
-            if(canBePlaced(board, getFirstCoordinate(typedInCoordinates), getSecondCoordinate(typedInCoordinates))) {
+            if (canBePlaced(board, getFirstCoordinate(typedInCoordinates), getSecondCoordinate(typedInCoordinates))) {
                 board[getFirstCoordinate(typedInCoordinates)][getSecondCoordinate(typedInCoordinates)] = currentPlayer;
                 drawABoard(board);
             } else {
@@ -23,11 +24,11 @@ public class WalkingSkeleton {
                 continue;
             }
             gameRunning = !isWinner(board, getFirstCoordinate(typedInCoordinates), getSecondCoordinate(typedInCoordinates));
-            if(gameRunning) {
+            if (gameRunning) {
                 currentPlayer = switchPlayer(currentPlayer);
             }
         }
-        System.out.println("Game was won by " +translateSignToString(currentPlayer));
+        System.out.println("Game was won by " + translateSignToString(currentPlayer));
     }
 
     static int switchPlayer(int playerSign) {
@@ -45,7 +46,7 @@ public class WalkingSkeleton {
     }
 
     static boolean isWinner(int[][] board, int lastFirstCoordinate, int lastSecondCoordinate) {
-        if(summarizeRow(board, lastFirstCoordinate) == Math.abs(board[0].length) || summarizeColumn(board, lastSecondCoordinate) == Math.abs(board.length)) {
+        if (summarizeRow(board, lastFirstCoordinate) == Math.abs(board[0].length) || summarizeColumn(board, lastSecondCoordinate) == Math.abs(board.length)) {
             return true;
         }
         //TODO other types of winning conditions
@@ -54,9 +55,9 @@ public class WalkingSkeleton {
 
     static int summarizeRow(int[][] board, int rowIndex) {
         int[] row = board[rowIndex];
-        int sum= 0;
+        int sum = 0;
         for (int i = 0; i < row.length; i++) {
-            sum+=row[i];
+            sum += row[i];
         }
         return sum;
     }
@@ -70,8 +71,8 @@ public class WalkingSkeleton {
     }
 
     static boolean canBePlaced(int[][] board, int firstCoordinate, int secondCoordinate) {
-        System.out.println("Coordinates = " + firstCoordinate +" " + secondCoordinate);
-        if(board.length <= firstCoordinate || board[0].length <= secondCoordinate) {
+        System.out.println("Coordinates = " + firstCoordinate + " " + secondCoordinate);
+        if (board.length <= firstCoordinate || board[0].length <= secondCoordinate) {
             return false;
         } else if (firstCoordinate < 0 || secondCoordinate < 0) {
             return false;
@@ -107,6 +108,4 @@ public class WalkingSkeleton {
             return ".";
         }
     }
-
-
 }

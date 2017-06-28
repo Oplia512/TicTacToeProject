@@ -1,7 +1,6 @@
 package com.mprtcz.tictactoeproject;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,11 +19,6 @@ public class MainApp extends Application {
         Parent root = loader.load();
 
         Scene scene = new Scene(root, 1024, 768);
-
-        window.setOnCloseRequest(e -> {
-            Platform.exit();
-            System.exit(0);
-        });
 
         window.setTitle("Tic Tac Toe Game");
         window.setScene(scene);
