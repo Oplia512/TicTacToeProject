@@ -1,7 +1,5 @@
 package com.mprtcz.tictactoeproject.game;
 
-import com.mprtcz.tictactoeproject.ui_elements.BoardGUI;
-
 import java.lang.reflect.MalformedParametersException;
 
 /**
@@ -39,6 +37,10 @@ public class BoardInitializer {
             throw new MalformedParametersException("Parameters exceed acceptable parameters: min = " + MIN_VALUE + ", max = " + MAX_VALUE);
         }
         board.boardArray = new Sign[this.boardHeight][this.boardWidth];
-        board.boardGUI = new BoardGUI(this.boardWidth, this.boardHeight, board);
+        for (int i = 0; i < this.boardHeight; i++) {
+            for (int j = 0; j < this.boardWidth; j++) {
+                board.boardArray[i][j] = Sign.EMPTY;
+            }
+        }
     }
 }

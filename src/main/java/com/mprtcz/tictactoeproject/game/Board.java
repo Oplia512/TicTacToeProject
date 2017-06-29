@@ -1,35 +1,45 @@
 package com.mprtcz.tictactoeproject.game;
 
-import com.mprtcz.tictactoeproject.player.Player;
-import com.mprtcz.tictactoeproject.ui_elements.BoardGUI;
-import javafx.scene.layout.GridPane;
-
 /**
  * @author Michal_Partacz
  * @since 28.06.2017.
  */
 public class Board {
     Sign[][] boardArray;
-    BoardGUI boardGUI;
-    Player currentPlayer;
 
-    public void setBoardArray(Sign[][] boardArray) {
-        this.boardArray = boardArray;
+    public int getBoardHeight() {
+        return boardArray.length;
     }
 
-    public Sign[][] getBoardArray() {
-        return boardArray;
+    public int getBoardWidth() {
+        return boardArray[0].length;
     }
 
-    public BoardGUI getBoardGUI() {
-        return boardGUI;
+    public Sign getValueOnPosition(int height, int width) {
+        return this.boardArray[height][width];
     }
 
-    public void setBoardGUI(BoardGUI boardGUI) {
-        this.boardGUI = boardGUI;
+    public String getFieldStringValue(int height, int width) {
+        if (this.boardArray[height][width].getValue() == 0) {
+            int fieldIndex = calculateFieldIndex(height, width);
+            return formatNumberAccordingToMaxValue(boardArray.length * boardArray[0].length, fieldIndex);
+        } else {
+            return this.boardArray[height][width].getRepresentation();
+        }
     }
 
-    public void redraw(GridPane gridPane) {
-        this.boardGUI.redraw(gridPane);
+    public int calculateFieldIndex(int height, int width) {
+        return this.boardArray[0].length * height + width;
     }
+
+    private String formatNumberAccordingToMaxValue(int maxNumber, int number) {
+        if (maxNumber > 99) {
+            return String.format("%03d", number);
+        } else if (maxNumber > 9) {
+            return String.format("%02d", number);
+        } else {
+            return String.valueOf(number);
+        }
+    }
+
 }

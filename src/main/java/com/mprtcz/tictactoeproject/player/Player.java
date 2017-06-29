@@ -1,5 +1,7 @@
 package com.mprtcz.tictactoeproject.player;
 
+import com.mprtcz.tictactoeproject.game.Sign;
+
 /**
  * @author Michal_Partacz
  * @since 28.06.2017.
@@ -8,20 +10,21 @@ public class Player {
     private String name;
     private int score;
     private GamesHistory gamesHistory;
-    private int currentSign;
+    private Sign playerSign;
 
-    public Player(String name) {
+    public Player(String name, Sign playerSign) {
         this.name = name;
         this.score = 0;
         this.gamesHistory = new GamesHistory();
+        this.playerSign = playerSign;
     }
 
-    public void setCurrentSign(int currentSign) {
-        this.currentSign = currentSign;
+    public void setPlayerSign(Sign playerSign) {
+        this.playerSign = playerSign;
     }
 
-    public int getCurrentSign() {
-        return currentSign;
+    public Sign getPlayerSign() {
+        return playerSign;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class Player {
                 "name='" + name + '\'' +
                 ", score=" + score +
                 ", gamesHistory=" + gamesHistory +
-                ", currentSign=" + currentSign +
+                ", playerSign=" + playerSign +
                 '}';
     }
 

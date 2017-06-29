@@ -1,7 +1,7 @@
 package com.mprtcz.tictactoeproject.player;
 
 import com.mprtcz.tictactoeproject.game.GameMode;
-import com.mprtcz.tictactoeproject.ui_elements.PlayerNamesDialog;
+import com.mprtcz.tictactoeproject.game.Sign;
 
 /**
  * @author Michal_Partacz
@@ -12,10 +12,10 @@ public class Players {
     private Player player1;
     private Player player2;
 
-    public Players(GameMode gameMode, PlayerNamesDialog playerNamesDialog) {
+    public Players(GameMode gameMode) {
         this.gameMode = gameMode;
-        this.player1 = new Player(playerNamesDialog.getFirstPlayerName());
-        this.player2 = new Player(playerNamesDialog.getSecondPlayerName());
+        this.player1 = new Player("Player1", Sign.O);
+        this.player2 = new Player("Player2", Sign.X);
     }
 
     public GameMode getGameMode() {
@@ -28,5 +28,13 @@ public class Players {
 
     public Player getPlayer2() {
         return player2;
+    }
+
+    public Player getOppositePlayer(Player player) {
+        if(player == player1) {
+            return player2;
+        } else {
+            return player1;
+        }
     }
 }
