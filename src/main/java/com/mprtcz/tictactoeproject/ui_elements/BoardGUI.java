@@ -18,8 +18,8 @@ public class BoardGUI {
     }
 
     private void populateButtonsList(int width, int height) {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 GameButton gameButton = GameButton.getGameButton(new GameButton.ButtonPosition(i, j), " ");
                 this.gameButtons.add(gameButton);
             }
@@ -28,11 +28,13 @@ public class BoardGUI {
 
     public void drawButtons(GridPane gridPane) {
         gridPane.getChildren().clear();
-        gridPane.getColumnConstraints().clear();
         for (GameButton gameButton: this.gameButtons) {
-            gameButton.setMaxSize(100, 100);
             gridPane.add(gameButton, gameButton.getHorizontalCoordinate(), gameButton.getVerticalCoordinate());
         }
+    }
 
+    public void redraw(GridPane gridPane) {
+        System.out.println("RedrawingBoard");
+        drawButtons(gridPane);
     }
 }

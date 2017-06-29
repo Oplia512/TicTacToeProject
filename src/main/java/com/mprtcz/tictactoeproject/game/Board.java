@@ -1,6 +1,7 @@
 package com.mprtcz.tictactoeproject.game;
 
 import com.mprtcz.tictactoeproject.ui_elements.BoardGUI;
+import javafx.scene.layout.GridPane;
 
 /**
  * @author Michal_Partacz
@@ -24,5 +25,9 @@ public class Board {
 
     public void setBoardGUI(BoardGUI boardGUI) {
         this.boardGUI = boardGUI;
+    }
+
+    public void redraw(GridPane gridPane) {
+        this.boardGUI.redraw(gridPane);
     }
 }

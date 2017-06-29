@@ -28,6 +28,12 @@ public class BoardInitializer {
         this.boardWidth = boardWidth;
     }
 
+    public BoardInitializer(BoardSize boardSize) {
+        System.out.println("boardSize = " + boardSize);
+        this.boardHeight = boardSize.getHeight();
+        this.boardWidth = boardSize.getWidth();
+    }
+
     public void initializeBoard(Board board) throws MalformedParametersException {
         if (this.boardWidth < MIN_VALUE || this.boardWidth > MAX_VALUE || this.boardHeight > MAX_VALUE || this.boardHeight < MIN_VALUE) {
             throw new MalformedParametersException("Parameters exceed acceptable parameters: min = " + MIN_VALUE + ", max = " + MAX_VALUE);

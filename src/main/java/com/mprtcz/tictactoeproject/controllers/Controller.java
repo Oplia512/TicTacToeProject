@@ -1,13 +1,13 @@
 package com.mprtcz.tictactoeproject.controllers;
 
-import com.mprtcz.tictactoeproject.game.Board;
-import com.mprtcz.tictactoeproject.game.BoardInitializer;
-import com.mprtcz.tictactoeproject.game.Game;
-import com.mprtcz.tictactoeproject.game.GameMode;
+import com.mprtcz.tictactoeproject.game.*;
 import com.mprtcz.tictactoeproject.player.Players;
 import com.mprtcz.tictactoeproject.ui_elements.PlayerNamesDialog;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * @author Michal_Partacz
@@ -15,16 +15,14 @@ import javafx.scene.layout.*;
  */
 public class Controller {
     private Players players;
-    private int boardWidth = 5;
-    private int boardHeight = 5;
     private GameMode gameMode;
     private Game game;
     private Board board;
+    private BoardSize boardSize;
 
     public ListView<String> playersListView;
     public Button startGameButton;
     public Label currentPlayerLabel;
-    public Pane buttonPane;
     public Label playersLabel;
     public BorderPane borderPane;
     public VBox choosePlayerNamesVBox;
@@ -37,37 +35,45 @@ public class Controller {
     public VBox rightPanelVBox;
     public GridPane buttonsGridPane;
 
-    public Controller() {
-    }
-
-
     public void onStartGameButtonClicked() {
         //TODO start game
         this.startGame();
     }
 
     void startGame() {
-        this.board = new Board();
-        BoardInitializer boardInitializer = new BoardInitializer(boardHeight, boardWidth);
-        boardInitializer.initializeBoard(board);
         this.game = new Game(board, this.players);
-        board.getBoardGUI().drawButtons(this.buttonsGridPane);
     }
 
-    private void initializeGridPane(int width, int height) {
-//        this.buttonsGridPane.
+    private void initializeBoard() {
+        this.board = new Board();
+        BoardInitializer boardInitializer = new BoardInitializer(this.boardSize);
+        boardInitializer.initializeBoard(board);
+        board.getBoardGUI().drawButtons(this.buttonsGridPane);
     }
 
     public void initialize() {
         setMainUIVisibility(false);
         this.chooseOpponentVBox.setVisible(true);
         this.choosePlayerNamesVBox.setVisible(false);
+        this.boardSize = new BoardSize(3, 3);
+        this.addSlidersListeners();
+        initializeBoard();
+    }
+
+    private void addSlidersListeners() {
+        this.horizontalSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            boardSize.setWidth(newValue.intValue());
+            initializeBoard();
+        });
+        this.verticalSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            boardSize.setHeight(newValue.intValue());
+            initializeBoard();
+        });
     }
 
     private void setMainUIVisibility(boolean visible) {
         this.startGameButton.setVisible(visible);
         this.currentPlayerLabel.setVisible(visible);
-        this.buttonPane.setVisible(visible);
         this.rightPanelVBox.setVisible(visible);
     }
 
@@ -111,20 +117,21 @@ public class Controller {
         }
     }
 
-    public void onVerticalSliderDragDetected() {
-        if (this.game.isRunning()) {
-            return;
-        }
 
+    public void onVerticalSliderScroll() {
+        if (this.game == null || !this.game.isRunning()) {
+            System.out.println("Controller.onVerticalSliderDragDetected");
+            this.boardSize.setHeight((int) this.verticalSlider.getValue());
+        }
+        this.initializeBoard();
     }
 
-    public void onHorizontalDragDetected() {
-        if (this.game.isRunning()) {
-            return;
+    public void onHorizontalSliderScroll() {
+        if (this.game == null || !this.game.isRunning()) {
+            System.out.println("Controller.onVerticalSliderDragDetected");
+            this.boardSize.setWidth((int) this.horizontalSlider.getValue());
         }
+        this.initializeBoard();
     }
-
-
-
 
 }
