@@ -23,4 +23,14 @@ public class Player {
     public int getCurrentSign() {
         return currentSign;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", score=" + score +
+                ", gamesHistory=" + gamesHistory +
+                ", currentSign=" + currentSign +
+                '}';
+    }
 }
