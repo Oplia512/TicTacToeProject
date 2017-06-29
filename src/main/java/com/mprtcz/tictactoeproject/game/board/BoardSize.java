@@ -1,4 +1,4 @@
-package com.mprtcz.tictactoeproject.game;
+package com.mprtcz.tictactoeproject.game.board;
 
 /**
  * @author Michal_Partacz

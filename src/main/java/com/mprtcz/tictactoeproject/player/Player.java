@@ -9,13 +9,11 @@ import com.mprtcz.tictactoeproject.game.Sign;
 public class Player {
     private String name;
     private int score;
-    private GamesHistory gamesHistory;
     private Sign playerSign;
 
     public Player(String name, Sign playerSign) {
         this.name = name;
         this.score = 0;
-        this.gamesHistory = new GamesHistory();
         this.playerSign = playerSign;
     }
 
@@ -32,7 +30,6 @@ public class Player {
         return "Player{" +
                 "name='" + name + '\'' +
                 ", score=" + score +
-                ", gamesHistory=" + gamesHistory +
                 ", playerSign=" + playerSign +
                 '}';
     }

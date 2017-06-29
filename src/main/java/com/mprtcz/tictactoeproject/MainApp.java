@@ -1,6 +1,7 @@
 package com.mprtcz.tictactoeproject;
 
 import com.mprtcz.tictactoeproject.game.*;
+import com.mprtcz.tictactoeproject.game.board.*;
 import com.mprtcz.tictactoeproject.player.Players;
 import com.mprtcz.tictactoeproject.ui_elements.CommandLineUi;
 import com.mprtcz.tictactoeproject.ui_elements.InputValidator;

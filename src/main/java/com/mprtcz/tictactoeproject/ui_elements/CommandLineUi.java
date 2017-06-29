@@ -1,6 +1,6 @@
 package com.mprtcz.tictactoeproject.ui_elements;
 
-import com.mprtcz.tictactoeproject.game.Board;
+import com.mprtcz.tictactoeproject.game.board.Board;
 import com.mprtcz.tictactoeproject.player.Player;
 
 import java.util.Scanner;

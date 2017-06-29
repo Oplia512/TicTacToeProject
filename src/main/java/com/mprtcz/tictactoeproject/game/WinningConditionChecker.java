@@ -1,5 +1,7 @@
 package com.mprtcz.tictactoeproject.game;
 
+import com.mprtcz.tictactoeproject.game.board.BoardManager;
+
 /**
  * @author Michal_Partacz
  * @since 29.06.2017.
