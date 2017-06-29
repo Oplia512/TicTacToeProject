@@ -1,5 +1,9 @@
 package com.mprtcz.tictactoeproject.ui_elements;
 
+import com.mprtcz.tictactoeproject.game.Board;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+
 /**
  * @author Michal_Partacz
  * @since 28.06.2017.
@@ -7,28 +11,32 @@ package com.mprtcz.tictactoeproject.ui_elements;
 public class GameButton extends javafx.scene.control.Button {
 
     private ButtonPosition buttonPosition;
+    private Board board;
 
-    public GameButton(ButtonPosition buttonPosition) {
+    public GameButton(ButtonPosition buttonPosition, Board board) {
         this.buttonPosition = buttonPosition;
+        this.board = board;
     }
 
-    public GameButton(ButtonPosition buttonPosition, String text) {
-        this.setText(text);
-        this.buttonPosition = buttonPosition;
-    }
-
-    public int getVerticalCoordinate() {
+    int getVerticalCoordinate() {
         return buttonPosition.getVertical();
     }
 
-    public int getHorizontalCoordinate() {
+    int getHorizontalCoordinate() {
         return buttonPosition.getHorizontal();
     }
 
-    public static GameButton getGameButton(ButtonPosition buttonPosition, String s) {
-        GameButton gameButton = new GameButton(buttonPosition, s);
+    static GameButton getGameButton(ButtonPosition buttonPosition, Board board) {
+        GameButton gameButton = new GameButton(buttonPosition, board);
+        gameButton.setText("   ");
         gameButton.setWidth(20);
         gameButton.setHeight(20);
+        gameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                //TODO handling
+            }
+        });
         return gameButton;
     }
 
@@ -36,16 +44,16 @@ public class GameButton extends javafx.scene.control.Button {
         int vertical;
         int horizontal;
 
-        public ButtonPosition(int vertical, int horizontal) {
+        ButtonPosition(int vertical, int horizontal) {
             this.vertical = vertical;
             this.horizontal = horizontal;
         }
 
-        public int getVertical() {
+        int getVertical() {
             return vertical;
         }
 
-        public int getHorizontal() {
+        int getHorizontal() {
             return horizontal;
         }
     }

@@ -1,5 +1,6 @@
 package com.mprtcz.tictactoeproject.ui_elements;
 
+import com.mprtcz.tictactoeproject.game.Board;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -11,16 +12,18 @@ import java.util.List;
  */
 public class BoardGUI {
     private List<GameButton> gameButtons;
+    private Board board;
 
-    public BoardGUI(int width, int height) {
+    public BoardGUI(int width, int height, Board board) {
         this.gameButtons = new ArrayList<>();
+        this.board = board;
         populateButtonsList(width, height);
     }
 
     private void populateButtonsList(int width, int height) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                GameButton gameButton = GameButton.getGameButton(new GameButton.ButtonPosition(i, j), " ");
+                GameButton gameButton = GameButton.getGameButton(new GameButton.ButtonPosition(i, j), this.board);
                 this.gameButtons.add(gameButton);
             }
         }

@@ -39,6 +39,6 @@ public class BoardInitializer {
             throw new MalformedParametersException("Parameters exceed acceptable parameters: min = " + MIN_VALUE + ", max = " + MAX_VALUE);
         }
         board.boardArray = new Sign[this.boardHeight][this.boardWidth];
-        board.boardGUI = new BoardGUI(this.boardWidth, this.boardHeight);
+        board.boardGUI = new BoardGUI(this.boardWidth, this.boardHeight, board);
     }
 }

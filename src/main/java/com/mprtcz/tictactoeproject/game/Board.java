@@ -1,5 +1,6 @@
 package com.mprtcz.tictactoeproject.game;
 
+import com.mprtcz.tictactoeproject.player.Player;
 import com.mprtcz.tictactoeproject.ui_elements.BoardGUI;
 import javafx.scene.layout.GridPane;
 
@@ -10,6 +11,7 @@ import javafx.scene.layout.GridPane;
 public class Board {
     Sign[][] boardArray;
     BoardGUI boardGUI;
+    Player currentPlayer;
 
     public void setBoardArray(Sign[][] boardArray) {
         this.boardArray = boardArray;

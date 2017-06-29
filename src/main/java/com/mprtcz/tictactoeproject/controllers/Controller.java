@@ -75,6 +75,7 @@ public class Controller {
         this.startGameButton.setVisible(visible);
         this.currentPlayerLabel.setVisible(visible);
         this.rightPanelVBox.setVisible(visible);
+        this.buttonsGridPane.setVisible(visible);
     }
 
     public void vsPlayerButtonClicked() {
