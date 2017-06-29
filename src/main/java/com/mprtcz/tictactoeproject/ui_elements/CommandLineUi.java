@@ -1,6 +1,7 @@
 package com.mprtcz.tictactoeproject.ui_elements;
 
 import com.mprtcz.tictactoeproject.game.Board;
+import com.mprtcz.tictactoeproject.player.Player;
 
 import java.lang.reflect.MalformedParametersException;
 import java.util.Scanner;
@@ -39,5 +40,9 @@ public class CommandLineUi {
 
     public void communicateException(MalformedParametersException e) {
         System.out.println(e.getMessage());
+    }
+
+    public void displayWinningMessage(Player currentPlayer) {
+        System.out.println("The game is won, winner: " +currentPlayer.getName() + ", sign: " +currentPlayer.getPlayerSign());
     }
 }

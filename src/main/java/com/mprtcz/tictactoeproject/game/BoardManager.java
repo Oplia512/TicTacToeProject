@@ -16,4 +16,24 @@ public class BoardManager {
     public void updateBoard(Field chosenField, Player currentPlayer) {
         this.board.boardArray[chosenField.getYCoordinate()][chosenField.getXCoordinate()] = currentPlayer.getPlayerSign();
     }
+
+    public int[] getValuesInRow(int rowIndex) {
+        return convertSignArrayToIntArray(this.board.boardArray[rowIndex]);
+    }
+
+    public int[] getIntValuesInColumn(int columnIndex) {
+        int[] column = new int[this.board.boardArray.length];
+        for (int i = 0; i < column.length; i++) {
+            column[i] = this.board.boardArray[i][columnIndex].getValue();
+        }
+        return column;
+    }
+
+    private int[] convertSignArrayToIntArray(Sign[] signArray) {
+        int[] intArray = new int[signArray.length];
+        for (int i = 0; i < signArray.length; i++) {
+            intArray[i] = signArray[i].getValue();
+        }
+        return intArray;
+    }
 }

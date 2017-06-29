@@ -38,13 +38,17 @@ public class Game {
                 Field chosenField = moveValidator.validateUserFieldInput(userInput, this.board);
                 moveValidator.validateIfFieldIsTaken(this.board, chosenField);
                 boardManager.updateBoard(chosenField, currentPlayer);
-                isGameWon = winningConditionChecker.checkIfTheGameIsWon(board);
+                isGameWon = winningConditionChecker.checkIfTheGameIsWon(boardManager, chosenField);
             } catch (MalformedParametersException e) {
                 commandLineUi.communicateException(e);
                 continue;
             }
-            // switch players
-            this.currentPlayer = players.getOppositePlayer(this.currentPlayer);
+            if(!isGameWon) {
+                this.currentPlayer = players.getOppositePlayer(this.currentPlayer);
+            } else {
+                commandLineUi.drawBoard(this.board);
+                commandLineUi.displayWinningMessage(currentPlayer);
+            }
         }
     }
 
