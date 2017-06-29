@@ -5,31 +5,21 @@ import com.mprtcz.tictactoeproject.game.BoardInitializer;
 import com.mprtcz.tictactoeproject.game.Game;
 import com.mprtcz.tictactoeproject.game.GameMode;
 import com.mprtcz.tictactoeproject.player.Players;
-import com.mprtcz.tictactoeproject.ui_elements.GameButton;
 import com.mprtcz.tictactoeproject.ui_elements.PlayerNamesDialog;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-
-import java.util.HashSet;
-import java.util.Set;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
 /**
  * @author Michal_Partacz
  * @since 27.06.2017.
  */
 public class Controller {
-    private Set<GameButton> gameButtons = new HashSet<>();
     private Players players;
-    private int boardWidth = 0;
-    private int boardHeight = 0;
+    private int boardWidth = 5;
+    private int boardHeight = 5;
     private GameMode gameMode;
-    private PlayerNamesDialog playerNamesDialog;
+    private Game game;
+    private Board board;
 
     public ListView<String> playersListView;
     public Button startGameButton;
@@ -42,6 +32,10 @@ public class Controller {
     public TextField firstPlayerTextField;
     public TextField secondPlayerTextField;
     public HBox secondPlayerHBox;
+    public Slider verticalSlider;
+    public Slider horizontalSlider;
+    public VBox rightPanelVBox;
+    public GridPane buttonsGridPane;
 
     public Controller() {
     }
@@ -49,13 +43,19 @@ public class Controller {
 
     public void onStartGameButtonClicked() {
         //TODO start game
+        this.startGame();
     }
 
     void startGame() {
-        Board board = new Board();
+        this.board = new Board();
         BoardInitializer boardInitializer = new BoardInitializer(boardHeight, boardWidth);
         boardInitializer.initializeBoard(board);
-        Game game = new Game(board, this.players);
+        this.game = new Game(board, this.players);
+        board.getBoardGUI().drawButtons(this.buttonsGridPane);
+    }
+
+    private void initializeGridPane(int width, int height) {
+//        this.buttonsGridPane.
     }
 
     public void initialize() {
@@ -65,11 +65,10 @@ public class Controller {
     }
 
     private void setMainUIVisibility(boolean visible) {
-        this.playersListView.setVisible(visible);
         this.startGameButton.setVisible(visible);
         this.currentPlayerLabel.setVisible(visible);
         this.buttonPane.setVisible(visible);
-        this.playersLabel.setVisible(visible);
+        this.rightPanelVBox.setVisible(visible);
     }
 
     public void vsPlayerButtonClicked() {
@@ -83,8 +82,8 @@ public class Controller {
     }
 
     private void createPlayerNamesDialog() {
-        this.playerNamesDialog = new PlayerNamesDialog(firstPlayerTextField, secondPlayerTextField);
-        this.players = new Players(this.gameMode, this.playerNamesDialog);
+        PlayerNamesDialog playerNamesDialog = new PlayerNamesDialog(firstPlayerTextField, secondPlayerTextField);
+        this.players = new Players(this.gameMode, playerNamesDialog);
         displayPlayers();
     }
 
@@ -111,5 +110,21 @@ public class Controller {
             this.playersListView.getItems().add(this.players.getPlayer2().getName());
         }
     }
+
+    public void onVerticalSliderDragDetected() {
+        if (this.game.isRunning()) {
+            return;
+        }
+
+    }
+
+    public void onHorizontalDragDetected() {
+        if (this.game.isRunning()) {
+            return;
+        }
+    }
+
+
+
 
 }

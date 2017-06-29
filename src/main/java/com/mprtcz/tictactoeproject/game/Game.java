@@ -9,6 +9,7 @@ import com.mprtcz.tictactoeproject.player.Players;
 public class Game {
     private Board board;
     private Players players;
+    private boolean running;
 
     public Game(Board board, Players players) {
         this.board = board;
@@ -16,4 +17,8 @@ public class Game {
     }
 
     void play() {}
+
+    public boolean isRunning() {
+        return running;
+    }
 }
