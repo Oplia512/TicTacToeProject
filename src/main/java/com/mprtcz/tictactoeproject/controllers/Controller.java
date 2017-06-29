@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -30,7 +31,7 @@ public class Controller {
     private GameMode gameMode;
     private PlayerNamesDialog playerNamesDialog;
 
-    public ListView playersListView;
+    public ListView<String> playersListView;
     public Button startGameButton;
     public Label currentPlayerLabel;
     public Pane buttonPane;
@@ -40,6 +41,7 @@ public class Controller {
     public VBox chooseOpponentVBox;
     public TextField firstPlayerTextField;
     public TextField secondPlayerTextField;
+    public HBox secondPlayerHBox;
 
     public Controller() {
     }
@@ -71,24 +73,29 @@ public class Controller {
     }
 
     public void vsPlayerButtonClicked() {
-        setAfterPlayerChooseVisibility();
         this.gameMode = GameMode.TWO_PLAYERS;
+        setAfterPlayerChooseVisibility();
     }
 
     public void onVsAIButtonClicked() {
-        setAfterPlayerChooseVisibility();
         this.gameMode = GameMode.ONE_PLAYER;
+        setAfterPlayerChooseVisibility();
     }
 
     private void createPlayerNamesDialog() {
         this.playerNamesDialog = new PlayerNamesDialog(firstPlayerTextField, secondPlayerTextField);
         this.players = new Players(this.gameMode, this.playerNamesDialog);
+        displayPlayers();
     }
 
     private void setAfterPlayerChooseVisibility() {
         this.chooseOpponentVBox.getChildren().clear();
         this.chooseOpponentVBox.setVisible(false);
         this.choosePlayerNamesVBox.setVisible(true);
+        if (this.gameMode == GameMode.ONE_PLAYER) {
+            this.secondPlayerHBox.setVisible(false);
+            this.secondPlayerHBox.getChildren().clear();
+        }
     }
 
     public void onPlayerNamesConfButtonClicked() {
@@ -96,6 +103,13 @@ public class Controller {
         this.choosePlayerNamesVBox.setVisible(false);
         this.choosePlayerNamesVBox.getChildren().clear();
         setMainUIVisibility(true);
+    }
+
+    private void displayPlayers() {
+        this.playersListView.getItems().add(this.players.getPlayer1().getName());
+        if (this.players.getGameMode() == GameMode.TWO_PLAYERS) {
+            this.playersListView.getItems().add(this.players.getPlayer2().getName());
+        }
     }
 
 }

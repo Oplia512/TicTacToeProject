@@ -33,4 +33,8 @@ public class Player {
                 ", currentSign=" + currentSign +
                 '}';
     }
+
+    public String getName() {
+        return name;
+    }
 }
