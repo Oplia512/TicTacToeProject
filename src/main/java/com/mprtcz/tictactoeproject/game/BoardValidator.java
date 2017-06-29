@@ -8,11 +8,16 @@ import java.lang.reflect.MalformedParametersException;
  */
 public class BoardValidator {
 
-
-    public BoardSize convertAndValidateDimensions(String dimensionsString) {
+    BoardSize convertAndValidateDimensions(String dimensionsString) {
         String[] parts = dimensionsString.split(",");
-        String heightString = parts[0];
-        String widthString = parts[1];
+        String heightString;
+        String widthString;
+        try {
+            heightString = parts[0];
+            widthString = parts[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new MalformedParametersException("Please specify correct board size");
+        }
 
         BoardSize boardSize;
         try {
@@ -20,7 +25,7 @@ public class BoardValidator {
             Integer width = Integer.valueOf(widthString);
             boardSize = new BoardSize(width, height);
         } catch (NumberFormatException e) {
-            throw new MalformedParametersException("String int conversion failed");
+            throw new MalformedParametersException("please specify correct dimensions");
         }
         return boardSize;
     }

@@ -12,10 +12,15 @@ public class MoveValidator {
         try {
             int numberChosen = Integer.valueOf(userInput);
             field.convertFieldIndexToCoordinates(numberChosen, board.getBoardWidth());
-            //TODO deeper validation (if there are no collisions)
         } catch (NumberFormatException e) {
             throw new MalformedParametersException("A problem with field number conversion");
         }
         return field;
+    }
+
+    public void validateIfFieldIsTaken(Board board, Field chosenField) {
+        if(!board.isFieldEmpty(chosenField)){
+            throw new MalformedParametersException("Field is already taken!");
+        }
     }
 }

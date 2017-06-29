@@ -14,6 +14,6 @@ public class BoardManager {
     }
 
     public void updateBoard(Field chosenField, Player currentPlayer) {
-        this.board.boardArray[chosenField.getyCoordinate()][chosenField.getxCoordinate()] = currentPlayer.getPlayerSign();
+        this.board.boardArray[chosenField.getYCoordinate()][chosenField.getXCoordinate()] = currentPlayer.getPlayerSign();
     }
 }

@@ -2,6 +2,7 @@ package com.mprtcz.tictactoeproject.ui_elements;
 
 import com.mprtcz.tictactoeproject.game.Board;
 
+import java.lang.reflect.MalformedParametersException;
 import java.util.Scanner;
 
 /**
@@ -9,9 +10,6 @@ import java.util.Scanner;
  * @since 28.06.2017.
  */
 public class CommandLineUi {
-
-    private String fieldFromTheUser;
-    private String arrayDimensions;
     private Scanner scanner;
 
     public CommandLineUi() {
@@ -19,7 +17,7 @@ public class CommandLineUi {
     }
 
     public void drawBoard(Board board) {
-        System.out.println("==============================");
+        System.out.println("============BOARD=============");
         for (int i = 0; i < board.getBoardHeight(); i++) {
             for (int j = 0; j < board.getBoardWidth(); j++) {
                 System.out.print(" " +board.getFieldStringValue(i, j));
@@ -34,16 +32,12 @@ public class CommandLineUi {
         return this.scanner.nextLine();
     }
 
-    public void communicateBadFieldChosen() {
-        System.out.println("Invalid field chosen");
-    }
-
     public String getArrayDimensions() {
         System.out.println("Pass on array dimensions in [height],[width] format");
         return scanner.nextLine();
     }
 
-    public void communicateBadDimensionsTyped() {
-        System.out.println("Dimensions specified are bad");
+    public void communicateException(MalformedParametersException e) {
+        System.out.println(e.getMessage());
     }
 }

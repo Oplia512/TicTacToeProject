@@ -28,6 +28,7 @@ public class Game {
         this.commandLineUi = new CommandLineUi();
         MoveValidator moveValidator = new MoveValidator();
         WinningConditionChecker winningConditionChecker = new WinningConditionChecker();
+        BoardValidator boardValidator = new BoardValidator();
         BoardManager boardManager = new BoardManager(this.board);
         commandLineUi.drawBoard(this.board);
         while (!isGameWon) {
@@ -35,10 +36,11 @@ public class Game {
             String userInput = commandLineUi.getFieldFromTheUser();
             try {
                 Field chosenField = moveValidator.validateUserFieldInput(userInput, this.board);
+                moveValidator.validateIfFieldIsTaken(this.board, chosenField);
                 boardManager.updateBoard(chosenField, currentPlayer);
                 isGameWon = winningConditionChecker.checkIfTheGameIsWon(board);
             } catch (MalformedParametersException e) {
-                commandLineUi.communicateBadFieldChosen();
+                commandLineUi.communicateException(e);
                 continue;
             }
             // switch players
@@ -51,20 +53,20 @@ public class Game {
         boolean areDimensionsOK = false;
         BoardValidator boardValidator = new BoardValidator();
         BoardSize boardSize = null;
+        Board board = new Board();
         while(!areDimensionsOK) {
             String dimensionsString = commandLineUi.getArrayDimensions();
             try{
                 boardSize = boardValidator.convertAndValidateDimensions(dimensionsString);
+                BoardInitializer boardInitializer = new BoardInitializer(boardSize);
+                boardInitializer.initializeBoard(board);
                 areDimensionsOK = true;
             } catch (MalformedParametersException e) {
-                commandLineUi.communicateBadDimensionsTyped();
+                commandLineUi.communicateException(e);
             }
         }
-        Board board = new Board();
-        BoardInitializer boardInitializer = new BoardInitializer(boardSize);
-        boardInitializer.initializeBoard(board);
 
-        Players players = new Players(GameMode.ONE_PLAYER);
+        Players players = new Players(GameMode.TWO_PLAYERS);
 
         Game game = new Game(board, players, commandLineUi);
         game.play();
