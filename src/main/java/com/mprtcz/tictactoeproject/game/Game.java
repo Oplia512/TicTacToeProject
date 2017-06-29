@@ -15,29 +15,35 @@ public class Game {
     private Players players;
     private Player currentPlayer;
     private CommandLineUi commandLineUi;
+    private BoardManager boardManager;
+    private WinningConditionChecker winningConditionChecker;
+    private MoveValidator moveValidator;
+    private boolean isGameWon;
 
-    public Game(Board board, Players players, CommandLineUi commandLineUi) {
+
+    public Game(Board board,
+                Players players,
+                CommandLineUi commandLineUi,
+                MoveValidator moveValidator,
+                WinningConditionChecker winningConditionChecker,
+                BoardManager boardManager) {
         this.commandLineUi = commandLineUi;
         this.board = board;
         this.players = players;
+        this.moveValidator = moveValidator;
+        this.boardManager = boardManager;
+        this.winningConditionChecker = winningConditionChecker;
     }
 
     public void play() {
         this.currentPlayer = players.getPlayer1();
-        boolean isGameWon = false;
-        this.commandLineUi = new CommandLineUi();
-        MoveValidator moveValidator = new MoveValidator();
-        WinningConditionChecker winningConditionChecker = new WinningConditionChecker();
-        BoardManager boardManager = new BoardManager(this.board);
+        isGameWon = false;
         commandLineUi.drawBoard(this.board);
         while (!isGameWon) {
             commandLineUi.drawBoard(this.board);
             String userInput = commandLineUi.getFieldFromTheUser(this.currentPlayer);
             try {
-                Field chosenField = moveValidator.validateUserFieldInput(userInput, this.board);
-                moveValidator.validateIfFieldIsTaken(this.board, chosenField);
-                boardManager.updateBoard(chosenField, currentPlayer);
-                isGameWon = winningConditionChecker.checkIfTheGameIsWon(boardManager, chosenField);
+                handleFieldChoosingAndCheckWinner(userInput);
             } catch (MalformedParametersException e) {
                 commandLineUi.communicateException(e);
                 continue;
@@ -49,11 +55,23 @@ public class Game {
             if(!isGameWon) {
                 this.currentPlayer = players.getOppositePlayer(this.currentPlayer);
             } else {
-                commandLineUi.drawBoard(this.board);
-                currentPlayer.increasePoints();
-                commandLineUi.displayWinningMessage(currentPlayer);
+                this.handleWinningConditions();
             }
         }
+    }
+
+    private void handleWinningConditions() {
+        commandLineUi.drawBoard(this.board);
+        currentPlayer.increasePoints();
+        commandLineUi.displayWinningMessage(currentPlayer);
+    }
+
+    private void handleFieldChoosingAndCheckWinner(String userInput)
+            throws MalformedParametersException, IllegalStateException {
+        Field chosenField = moveValidator.validateUserFieldInput(userInput, this.board);
+        moveValidator.validateIfFieldIsTaken(this.board, chosenField);
+        boardManager.updateBoard(chosenField, currentPlayer);
+        isGameWon = winningConditionChecker.checkIfTheGameIsWon(boardManager, chosenField);
     }
 
 

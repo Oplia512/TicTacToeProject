@@ -18,37 +18,41 @@ public class MainApp {
         Players players = new Players(GameMode.TWO_PLAYERS);
         while(mainLoopRunning) {
             CommandLineUi commandLineUi = new CommandLineUi();
-            boolean areDimensionsOK = false;
-            BoardValidator boardValidator = new BoardValidator();
-            BoardSize boardSize = null;
-            Board board = new Board();
-            while (!areDimensionsOK) {
-                String dimensionsString = commandLineUi.getArrayDimensions();
-                try {
-                    boardSize = boardValidator.convertAndValidateDimensions(dimensionsString);
-                    BoardInitializer boardInitializer = new BoardInitializer(boardSize);
-                    boardInitializer.initializeBoard(board);
-                    areDimensionsOK = true;
-                } catch (MalformedParametersException e) {
-                    commandLineUi.communicateException(e);
-                }
-            }
-
-            Game game = new Game(board, players, commandLineUi);
+            Board board = validateAndInitializeBoard(commandLineUi);
+            Game game = new Game(board, players, commandLineUi,
+                    new MoveValidator(), new WinningConditionChecker(), new BoardManager(board));
             game.play();
-
-            boolean isNextAnswerBad = false;
-            while(!isNextAnswerBad) {
-                String anotherGameAnswerString = commandLineUi.askForAnotherGame();
-                InputValidator inputValidator = new InputValidator();
-                try {
-                    mainLoopRunning = inputValidator.validateAnotherGameAnswer(anotherGameAnswerString);
-                    isNextAnswerBad = true;
-                } catch (MalformedParametersException e) {
-                    commandLineUi.communicateException(e);
-                }
-            }
+            mainLoopRunning = processNextGameAnswer(commandLineUi);
         }
         System.out.println("Hope you enjoyed the game, please like and subscribe for more content!");
+    }
+
+    private static Board validateAndInitializeBoard(CommandLineUi commandLineUi) {
+        BoardValidator boardValidator = new BoardValidator();
+        BoardSize boardSize;
+        Board board = new Board();
+        while (true) {
+            String dimensionsString = commandLineUi.getArrayDimensions();
+            try {
+                boardSize = boardValidator.convertAndValidateDimensions(dimensionsString);
+                BoardInitializer boardInitializer = new BoardInitializer(boardSize);
+                boardInitializer.initializeBoard(board);
+                return board;
+            } catch (MalformedParametersException e) {
+                commandLineUi.communicateException(e);
+            }
+        }
+    }
+
+    private static boolean processNextGameAnswer(CommandLineUi commandLineUi) {
+        while(true) {
+            String anotherGameAnswerString = commandLineUi.askForAnotherGame();
+            InputValidator inputValidator = new InputValidator();
+            try {
+                return inputValidator.validateAnotherGameAnswer(anotherGameAnswerString);
+            } catch (MalformedParametersException e) {
+                commandLineUi.communicateException(e);
+            }
+        }
     }
 }
