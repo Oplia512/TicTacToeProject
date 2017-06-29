@@ -15,6 +15,7 @@ public class InputValidator {
             return false;
         } else {
             throw new MalformedParametersException("Please specify yes or no: y/n");
+
         }
     }
 }

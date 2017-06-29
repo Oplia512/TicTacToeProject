@@ -17,10 +17,6 @@ public class Player {
         this.playerSign = playerSign;
     }
 
-    public void setPlayerSign(Sign playerSign) {
-        this.playerSign = playerSign;
-    }
-
     public Sign getPlayerSign() {
         return playerSign;
     }

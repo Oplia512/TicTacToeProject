@@ -12,8 +12,8 @@ import java.util.Scanner;
 public class CommandLineUi {
     private Scanner scanner;
 
-    public CommandLineUi() {
-        this.scanner = new Scanner(System.in);
+    public CommandLineUi(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     public void drawBoard(Board board) {

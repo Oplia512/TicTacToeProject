@@ -7,6 +7,7 @@ import com.mprtcz.tictactoeproject.ui_elements.CommandLineUi;
 import com.mprtcz.tictactoeproject.ui_elements.InputValidator;
 
 import java.lang.reflect.MalformedParametersException;
+import java.util.Scanner;
 
 /**
  * @author Michal_Partacz
@@ -18,7 +19,7 @@ public class MainApp {
         boolean mainLoopRunning = true;
         Players players = new Players(GameMode.TWO_PLAYERS);
         while(mainLoopRunning) {
-            CommandLineUi commandLineUi = new CommandLineUi();
+            CommandLineUi commandLineUi = new CommandLineUi(new Scanner(System.in));
             Board board = validateAndInitializeBoard(commandLineUi);
             Game game = new Game(board, players, commandLineUi,
                     new MoveValidator(), new WinningConditionChecker(), new BoardManager(board));
