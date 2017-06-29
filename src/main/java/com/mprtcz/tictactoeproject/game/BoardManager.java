@@ -17,6 +17,17 @@ public class BoardManager {
         this.board.boardArray[chosenField.getYCoordinate()][chosenField.getXCoordinate()] = currentPlayer.getPlayerSign();
     }
 
+    public boolean isThereAnEmptyPlaceInTheArray() {
+        for (Sign[] signs: board.boardArray) {
+            for (Sign s : signs) {
+                if(s.getValue() == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public int[] getValuesInRow(int rowIndex) {
         return convertSignArrayToIntArray(this.board.boardArray[rowIndex]);
     }

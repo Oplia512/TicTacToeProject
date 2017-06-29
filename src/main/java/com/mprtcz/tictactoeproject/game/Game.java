@@ -22,18 +22,17 @@ public class Game {
         this.players = players;
     }
 
-    void play() {
+    public void play() {
         this.currentPlayer = players.getPlayer1();
         boolean isGameWon = false;
         this.commandLineUi = new CommandLineUi();
         MoveValidator moveValidator = new MoveValidator();
         WinningConditionChecker winningConditionChecker = new WinningConditionChecker();
-        BoardValidator boardValidator = new BoardValidator();
         BoardManager boardManager = new BoardManager(this.board);
         commandLineUi.drawBoard(this.board);
         while (!isGameWon) {
             commandLineUi.drawBoard(this.board);
-            String userInput = commandLineUi.getFieldFromTheUser();
+            String userInput = commandLineUi.getFieldFromTheUser(this.currentPlayer);
             try {
                 Field chosenField = moveValidator.validateUserFieldInput(userInput, this.board);
                 moveValidator.validateIfFieldIsTaken(this.board, chosenField);
@@ -42,37 +41,20 @@ public class Game {
             } catch (MalformedParametersException e) {
                 commandLineUi.communicateException(e);
                 continue;
+            } catch (IllegalStateException e) {
+                commandLineUi.drawBoard(this.board);
+                commandLineUi.communicateException(e);
+                break;
             }
             if(!isGameWon) {
                 this.currentPlayer = players.getOppositePlayer(this.currentPlayer);
             } else {
                 commandLineUi.drawBoard(this.board);
+                currentPlayer.increasePoints();
                 commandLineUi.displayWinningMessage(currentPlayer);
             }
         }
     }
 
-    public static void main(String[] args) {
-        CommandLineUi commandLineUi = new CommandLineUi();
-        boolean areDimensionsOK = false;
-        BoardValidator boardValidator = new BoardValidator();
-        BoardSize boardSize = null;
-        Board board = new Board();
-        while(!areDimensionsOK) {
-            String dimensionsString = commandLineUi.getArrayDimensions();
-            try{
-                boardSize = boardValidator.convertAndValidateDimensions(dimensionsString);
-                BoardInitializer boardInitializer = new BoardInitializer(boardSize);
-                boardInitializer.initializeBoard(board);
-                areDimensionsOK = true;
-            } catch (MalformedParametersException e) {
-                commandLineUi.communicateException(e);
-            }
-        }
 
-        Players players = new Players(GameMode.TWO_PLAYERS);
-
-        Game game = new Game(board, players, commandLineUi);
-        game.play();
-    }
 }

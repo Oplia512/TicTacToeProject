@@ -40,4 +40,12 @@ public class Player {
     public String getName() {
         return name;
     }
+
+    public void increasePoints() {
+        this.score++;
+    }
+
+    public int getScore() {
+        return score;
+    }
 }

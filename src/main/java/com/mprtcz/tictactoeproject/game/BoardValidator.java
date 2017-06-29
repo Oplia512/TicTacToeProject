@@ -8,7 +8,7 @@ import java.lang.reflect.MalformedParametersException;
  */
 public class BoardValidator {
 
-    BoardSize convertAndValidateDimensions(String dimensionsString) {
+    public BoardSize convertAndValidateDimensions(String dimensionsString) {
         String[] parts = dimensionsString.split(",");
         String heightString;
         String widthString;

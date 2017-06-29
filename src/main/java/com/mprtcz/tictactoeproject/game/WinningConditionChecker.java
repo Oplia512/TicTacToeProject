@@ -6,8 +6,19 @@ package com.mprtcz.tictactoeproject.game;
  */
 public class WinningConditionChecker {
     public boolean checkIfTheGameIsWon(BoardManager boardManager, Field field) {
-        return checkRow(getRow(boardManager, field)) || checkColumn(getColumn(boardManager, field));
+        boolean isThereAWinner = checkRow(getRow(boardManager, field))
+                || checkColumn(getColumn(boardManager, field));
+        if(!isThereAWinner) {
+            areAllPlacesTaken(boardManager);
+        }
+        return isThereAWinner;
         //TODO other winning conditions
+    }
+
+    private void areAllPlacesTaken(BoardManager boardManager) {
+        if(!boardManager.isThereAnEmptyPlaceInTheArray()) {
+            throw new IllegalStateException("The board is full, and there is no winner");
+        }
     }
 
     private int[] getRow(BoardManager boardManager, Field field) {

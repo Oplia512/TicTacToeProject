@@ -3,7 +3,6 @@ package com.mprtcz.tictactoeproject.ui_elements;
 import com.mprtcz.tictactoeproject.game.Board;
 import com.mprtcz.tictactoeproject.player.Player;
 
-import java.lang.reflect.MalformedParametersException;
 import java.util.Scanner;
 
 /**
@@ -28,8 +27,8 @@ public class CommandLineUi {
         System.out.println("==============================");
     }
 
-    public String getFieldFromTheUser() {
-        System.out.println("Type field number:" );
+    public String getFieldFromTheUser(Player currentPlayer) {
+        System.out.println("Type field number, " +currentPlayer.getName() +"! Sign: " +currentPlayer.getPlayerSign());
         return this.scanner.nextLine();
     }
 
@@ -38,11 +37,18 @@ public class CommandLineUi {
         return scanner.nextLine();
     }
 
-    public void communicateException(MalformedParametersException e) {
+    public void communicateException(Exception e) {
         System.out.println(e.getMessage());
     }
 
     public void displayWinningMessage(Player currentPlayer) {
-        System.out.println("The game is won, winner: " +currentPlayer.getName() + ", sign: " +currentPlayer.getPlayerSign());
+        System.out.println("The game is won, winner: " +currentPlayer.getName()
+                + ", sign: " +currentPlayer.getPlayerSign()
+        + ", actual points: " +currentPlayer.getScore());
+    }
+
+    public String askForAnotherGame() {
+        System.out.println("Do you want to play again? y/n");
+         return scanner.nextLine();
     }
 }
