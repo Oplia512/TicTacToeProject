@@ -1,6 +1,6 @@
 package com.mprtcz.tictactoeproject.ui_elements;
 
-import java.lang.reflect.MalformedParametersException;
+import com.mprtcz.tictactoeproject.game.ExceptionsCreator;
 
 /**
  * @author Michal_Partacz
@@ -14,8 +14,7 @@ public class InputValidator {
         } else if (anotherGameAnswer.toLowerCase().equals("n")) {
             return false;
         } else {
-            throw new MalformedParametersException("Please specify yes or no: y/n");
-
+            throw ExceptionsCreator.getInstance().createSpecifyYesNoException();
         }
     }
 }

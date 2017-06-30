@@ -10,17 +10,19 @@ import java.util.Scanner;
  * @since 28.06.2017.
  */
 public class CommandLineUi {
+    private MessagesWrapper messagesWrapper;
     private Scanner scanner;
 
     public CommandLineUi(Scanner scanner) {
         this.scanner = scanner;
+        this.messagesWrapper = new MessagesWrapper();
     }
 
     public void drawBoard(Board board) {
-        System.out.println("============BOARD=============");
+        System.out.println(String.format("============%s===========", messagesWrapper.getString("BOARD_HEADER")));
         for (int i = 0; i < board.getBoardHeight(); i++) {
             for (int j = 0; j < board.getBoardWidth(); j++) {
-                System.out.print(" " +board.getFieldStringValue(i, j));
+                System.out.print(" " + board.getFieldStringValue(i, j));
             }
             System.out.println("");
         }
@@ -28,12 +30,12 @@ public class CommandLineUi {
     }
 
     public String getFieldFromTheUser(Player currentPlayer) {
-        System.out.println("Type field number, " +currentPlayer.getName() +"! Sign: " +currentPlayer.getPlayerSign());
+        System.out.println(String.format(messagesWrapper.getString("TYPE_FIELD_NUMBER"), currentPlayer.getName(), currentPlayer.getPlayerSign()));
         return this.scanner.nextLine();
     }
 
     public String getArrayDimensions() {
-        System.out.println("Pass on array dimensions in [height],[width] format");
+        System.out.println(messagesWrapper.getString("PASS_ARRAY_DIMENSIONS_MESSAGE"));
         return scanner.nextLine();
     }
 
@@ -42,13 +44,14 @@ public class CommandLineUi {
     }
 
     public void displayWinningMessage(Player currentPlayer) {
-        System.out.println("The game is won, winner: " +currentPlayer.getName()
-                + ", sign: " +currentPlayer.getPlayerSign()
-        + ", actual points: " +currentPlayer.getScore());
+        System.out.println(String.format(messagesWrapper.getString("DISPLAY_GAME_WINNER"),
+                currentPlayer.getName(),
+                currentPlayer.getPlayerSign(),
+                currentPlayer.getScore()));
     }
 
     public String askForAnotherGame() {
-        System.out.println("Do you want to play again? y/n");
-         return scanner.nextLine();
+        System.out.println(messagesWrapper.getString("PLAY_AGAIN_QUESTION"));
+        return scanner.nextLine();
     }
 }

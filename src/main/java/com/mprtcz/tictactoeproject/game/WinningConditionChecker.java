@@ -20,7 +20,7 @@ public class WinningConditionChecker {
 
     private void areAllPlacesTaken(BoardManager boardManager) {
         if(!boardManager.isThereAnEmptyPlaceInTheArray()) {
-            throw new IllegalStateException("The board is full, and there is no winner");
+            throw ExceptionsCreator.getInstance().createBoardFullException();
         }
     }
 

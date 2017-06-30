@@ -1,8 +1,7 @@
 package com.mprtcz.tictactoeproject.game.board;
 
+import com.mprtcz.tictactoeproject.game.ExceptionsCreator;
 import com.mprtcz.tictactoeproject.game.Sign;
-
-import java.lang.reflect.MalformedParametersException;
 
 /**
  * @author Michal_Partacz
@@ -23,7 +22,7 @@ public class Board {
         try {
             return this.boardArray[height][width];
         } catch (IndexOutOfBoundsException e) {
-            throw new MalformedParametersException("The board is not that big!");
+            throw ExceptionsCreator.getInstance().createBoardTooSmallException();
         }
     }
 

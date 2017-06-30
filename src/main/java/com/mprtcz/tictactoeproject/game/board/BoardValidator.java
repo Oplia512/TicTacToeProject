@@ -1,6 +1,6 @@
 package com.mprtcz.tictactoeproject.game.board;
 
-import java.lang.reflect.MalformedParametersException;
+import com.mprtcz.tictactoeproject.game.ExceptionsCreator;
 
 /**
  * @author Michal_Partacz
@@ -16,7 +16,7 @@ public class BoardValidator {
             heightString = parts[0];
             widthString = parts[1];
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MalformedParametersException("Please specify correct board size");
+            throw ExceptionsCreator.getInstance().createIncorrectBoardSizeException();
         }
 
         BoardSize boardSize;
@@ -25,7 +25,7 @@ public class BoardValidator {
             Integer width = Integer.valueOf(widthString);
             boardSize = new BoardSize(width, height);
         } catch (NumberFormatException e) {
-            throw new MalformedParametersException("please specify correct dimensions");
+            throw ExceptionsCreator.getInstance().createIncorrectDimensionsException();
         }
         return boardSize;
     }

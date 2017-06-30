@@ -7,6 +7,7 @@ import com.mprtcz.tictactoeproject.ui_elements.CommandLineUi;
 import com.mprtcz.tictactoeproject.ui_elements.InputValidator;
 
 import java.lang.reflect.MalformedParametersException;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -17,6 +18,7 @@ public class MainApp {
 
     public static void main(String[] args) {
         boolean mainLoopRunning = true;
+        chooseLocale();
         Players players = new Players(GameMode.TWO_PLAYERS);
         while(mainLoopRunning) {
             CommandLineUi commandLineUi = new CommandLineUi(new Scanner(System.in));
@@ -60,5 +62,10 @@ public class MainApp {
                 commandLineUi.communicateException(e);
             }
         }
+    }
+
+    private static void chooseLocale() {
+//        Locale.setDefault(new Locale("en","US"));
+        Locale.setDefault(new Locale("pl","PL"));
     }
 }
