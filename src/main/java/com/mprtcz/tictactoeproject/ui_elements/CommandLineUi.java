@@ -46,7 +46,7 @@ public class CommandLineUi {
     }
 
     public void communicateException(Exception e) {
-        System.out.println(e.getMessage());
+        System.err.println(e.getMessage());
     }
 
     public void displayWinningMessage(Player currentPlayer) {
