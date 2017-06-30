@@ -26,3 +26,15 @@ TODO:
 3. Localization
 4. Tests for the rest of the classes
 5. Other winning conditions
+
+
+Minimum reqs:
+* ~~It must work (it it doesn’t, it’s disqualified): if I cannot play, it doesn't work.~~
+* 60% unit test code coverage. Status: :poop:
+* Functions in accordance with functional requirements. :question:
+* Code quality – non-OO code is tolerated in little amounts. :question:
+* Project mantra followed (Git, Maven, test cases, etc.). :question:
+* ~~Console UI, no graphics (though see extra reqs)~~
+* ~~Hot-seat game, no network (though see extra reqs)~~
+* ~~Both players are human (though see extra reqs)~~
+* ~~only Java API (JDK8, SE) and TestNG~~
