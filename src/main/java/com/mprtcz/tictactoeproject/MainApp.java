@@ -1,9 +1,6 @@
 package com.mprtcz.tictactoeproject;
 
-import com.mprtcz.tictactoeproject.game.TicTacToeGame;
-import com.mprtcz.tictactoeproject.game.GameMode;
-import com.mprtcz.tictactoeproject.game.MoveValidator;
-import com.mprtcz.tictactoeproject.game.WinningConditionChecker;
+import com.mprtcz.tictactoeproject.game.*;
 import com.mprtcz.tictactoeproject.game.board.*;
 import com.mprtcz.tictactoeproject.player.TicTacToePlayers;
 import com.mprtcz.tictactoeproject.ui_elements.CommandLineUi;
@@ -26,7 +23,7 @@ public class MainApp {
         TicTacToePlayers ticTacToePlayers = new TicTacToePlayers(GameMode.TWO_PLAYERS);
         while(mainLoopRunning) {
             Board board = validateAndInitializeBoard(commandLineUi);
-            TicTacToeGame ticTacToeGame = new TicTacToeGame(board, ticTacToePlayers, commandLineUi,
+            Game ticTacToeGame = new TicTacToeGame(board, ticTacToePlayers, commandLineUi,
                     new MoveValidator(), new WinningConditionChecker(), new BoardManager(board));
             ticTacToeGame.play();
             mainLoopRunning = processNextGameAnswer(commandLineUi);
