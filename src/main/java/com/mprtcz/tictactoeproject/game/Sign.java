@@ -24,4 +24,17 @@ public enum Sign {
     public String getRepresentation() {
         return representation;
     }
+
+    public static Sign getOppositeSign(Sign sign) {
+        Sign toReturn = Sign.EMPTY;
+        switch (sign) {
+            case O:
+                toReturn = Sign.X; break;
+            case X:
+                toReturn = Sign.O; break;
+            case EMPTY:
+                toReturn = Sign.EMPTY; break;
+        }
+        return toReturn;
+    }
 }

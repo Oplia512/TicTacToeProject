@@ -25,6 +25,9 @@ public class MainApp {
                     new MoveValidator(), new WinningConditionChecker(), new BoardManager(board));
             game.play();
             mainLoopRunning = processNextGameAnswer(commandLineUi);
+            if(mainLoopRunning) {
+                players.reversePlayersSigns();
+            }
         }
         System.out.println("Hope you enjoyed the game, please like and subscribe for more content!\n" +
                 "And stay tuned for the glorious Graphical User Interface!");

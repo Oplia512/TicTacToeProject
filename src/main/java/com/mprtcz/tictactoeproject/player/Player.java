@@ -10,6 +10,7 @@ public class Player {
     private String name;
     private int score;
     private Sign playerSign;
+    private Sign sign;
 
     public Player(String name, Sign playerSign) {
         this.name = name;
@@ -40,5 +41,9 @@ public class Player {
 
     public int getScore() {
         return score;
+    }
+
+    public void setSign(Sign sign) {
+        this.sign = sign;
     }
 }

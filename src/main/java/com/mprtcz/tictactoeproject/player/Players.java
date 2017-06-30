@@ -37,4 +37,9 @@ public class Players {
             return player1;
         }
     }
+
+    public void reversePlayersSigns() {
+        this.player1.setSign(Sign.getOppositeSign(this.player1.getPlayerSign()));
+        this.player2.setSign(Sign.getOppositeSign(this.player2.getPlayerSign()));
+    }
 }
