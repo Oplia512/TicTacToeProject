@@ -17,11 +17,10 @@ public class ExceptionsCreator {
     }
 
     public static ExceptionsCreator getInstance() {
-        if(exceptionsCreator == null) {
-            return new ExceptionsCreator();
-        } else {
-            return exceptionsCreator;
+        if (exceptionsCreator == null) {
+            exceptionsCreator = new ExceptionsCreator();
         }
+        return exceptionsCreator;
     }
 
     public IllegalStateException createBoardFullException() {
@@ -53,7 +52,7 @@ public class ExceptionsCreator {
     }
 
     public MalformedParametersException createBoardDimensionsExceedException(int min, int max) {
-        throw new MalformedParametersException(String.format(messagesWrapper.getString("BOARD_PARAMS_EXCEED_ACCEPTABLE_EXCEPTION_MESSAGE"), min,  max));
+        throw new MalformedParametersException(String.format(messagesWrapper.getString("BOARD_PARAMS_EXCEED_ACCEPTABLE_EXCEPTION_MESSAGE"), min, max));
 
     }
 }
