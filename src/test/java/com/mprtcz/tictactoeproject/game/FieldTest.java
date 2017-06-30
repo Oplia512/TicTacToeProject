@@ -1,5 +1,6 @@
 package com.mprtcz.tictactoeproject.game;
 
+import com.mprtcz.tictactoeproject.game.board.Field;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

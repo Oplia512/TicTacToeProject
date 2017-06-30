@@ -1,6 +1,7 @@
 package com.mprtcz.tictactoeproject.game;
 
 import com.mprtcz.tictactoeproject.game.board.Board;
+import com.mprtcz.tictactoeproject.game.board.Field;
 
 import java.lang.reflect.MalformedParametersException;
 

@@ -2,6 +2,7 @@ package com.mprtcz.tictactoeproject.game;
 
 import com.mprtcz.tictactoeproject.game.board.Board;
 import com.mprtcz.tictactoeproject.game.board.BoardManager;
+import com.mprtcz.tictactoeproject.game.board.Field;
 import com.mprtcz.tictactoeproject.player.Player;
 import com.mprtcz.tictactoeproject.player.Players;
 import com.mprtcz.tictactoeproject.ui_elements.CommandLineUi;
