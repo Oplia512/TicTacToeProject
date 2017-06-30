@@ -16,7 +16,6 @@ public class BoardInitializer {
     private int boardWidth = 0;
 
     public BoardInitializer(BoardSize boardSize) {
-        System.out.println("boardSize = " + boardSize);
         this.boardHeight = boardSize.getHeight();
         this.boardWidth = boardSize.getWidth();
     }

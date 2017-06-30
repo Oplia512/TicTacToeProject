@@ -41,7 +41,6 @@ public class Game {
     public void play() {
         this.currentPlayer = players.getPlayer1();
         isGameWon = false;
-        commandLineUi.drawBoard(this.board);
         while (!isGameWon) {
             commandLineUi.drawBoard(this.board);
             String userInput = commandLineUi.getFieldFromTheUser(this.currentPlayer);

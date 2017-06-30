@@ -26,7 +26,8 @@ public class MainApp {
             game.play();
             mainLoopRunning = processNextGameAnswer(commandLineUi);
         }
-        System.out.println("Hope you enjoyed the game, please like and subscribe for more content!");
+        System.out.println("Hope you enjoyed the game, please like and subscribe for more content!\n" +
+                "And stay tuned for the glorious Graphical User Interface!");
     }
 
     private static Board validateAndInitializeBoard(CommandLineUi commandLineUi) {
