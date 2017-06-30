@@ -35,7 +35,7 @@ public class MainApp {
             }
         }
         System.out.println("Hope you enjoyed the game, please like and subscribe for more content!\n" +
-                "And stay tuned for the glorious Graphical User Interface!");
+                "And stay tuned for the glorious Graphical User Interface! (Coming Soon!)");
     }
 
     private static Board validateAndInitializeBoard(CommandLineUi commandLineUi) {

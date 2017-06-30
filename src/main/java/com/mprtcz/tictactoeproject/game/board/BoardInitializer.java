@@ -22,14 +22,18 @@ public class BoardInitializer {
     }
 
     public void initializeBoard(Board board) throws MalformedParametersException {
-        if (this.boardWidth < MIN_VALUE || this.boardWidth > MAX_VALUE || this.boardHeight > MAX_VALUE || this.boardHeight < MIN_VALUE) {
-            throw ExceptionsCreator.getInstance().createBoardDimensionsExceedException(MIN_VALUE, MAX_VALUE);
-        }
+        checkConstraints();
         board.boardArray = new Sign[this.boardHeight][this.boardWidth];
         for (int i = 0; i < this.boardHeight; i++) {
             for (int j = 0; j < this.boardWidth; j++) {
                 board.boardArray[i][j] = Sign.EMPTY;
             }
+        }
+    }
+
+    void checkConstraints() {
+        if (this.boardWidth < MIN_VALUE || this.boardWidth > MAX_VALUE || this.boardHeight > MAX_VALUE || this.boardHeight < MIN_VALUE) {
+            throw ExceptionsCreator.getInstance().createBoardDimensionsExceedException(MIN_VALUE, MAX_VALUE);
         }
     }
 }

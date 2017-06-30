@@ -10,7 +10,6 @@ public class LocaleManager {
 
     public static void validateInputAndSetLocale(String userInput) {
         AvailableLocale locale;
-        System.out.println("userInput = " + userInput);
         switch (userInput.toLowerCase()) {
             case "pl":
                 locale = AvailableLocale.PL; break;
