@@ -1,13 +1,16 @@
 package com.mprtcz.tictactoeproject;
 
-import com.mprtcz.tictactoeproject.game.*;
+import com.mprtcz.tictactoeproject.game.Game;
+import com.mprtcz.tictactoeproject.game.GameMode;
+import com.mprtcz.tictactoeproject.game.MoveValidator;
+import com.mprtcz.tictactoeproject.game.WinningConditionChecker;
 import com.mprtcz.tictactoeproject.game.board.*;
 import com.mprtcz.tictactoeproject.player.Players;
 import com.mprtcz.tictactoeproject.ui_elements.CommandLineUi;
 import com.mprtcz.tictactoeproject.ui_elements.InputValidator;
+import com.mprtcz.tictactoeproject.utils.LocaleManager;
 
 import java.lang.reflect.MalformedParametersException;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -18,10 +21,10 @@ public class MainApp {
 
     public static void main(String[] args) {
         boolean mainLoopRunning = true;
-        chooseLocale();
+        CommandLineUi commandLineUi = new CommandLineUi(new Scanner(System.in));
+        chooseLocale(commandLineUi);
         Players players = new Players(GameMode.TWO_PLAYERS);
         while(mainLoopRunning) {
-            CommandLineUi commandLineUi = new CommandLineUi(new Scanner(System.in));
             Board board = validateAndInitializeBoard(commandLineUi);
             Game game = new Game(board, players, commandLineUi,
                     new MoveValidator(), new WinningConditionChecker(), new BoardManager(board));
@@ -64,8 +67,9 @@ public class MainApp {
         }
     }
 
-    private static void chooseLocale() {
-//        Locale.setDefault(new Locale("en","US"));
-        Locale.setDefault(new Locale("pl","PL"));
+    private static void chooseLocale(CommandLineUi commandLineUi) {
+        String userLocaleInput = commandLineUi.getUserLocaleInput(LocaleManager.AvailableLocale.values());
+        LocaleManager.validateInputAndSetLocale(userLocaleInput);
+        commandLineUi.updateCommandLineLocale();
     }
 }

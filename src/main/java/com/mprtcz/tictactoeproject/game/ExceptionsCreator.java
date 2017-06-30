@@ -1,6 +1,6 @@
 package com.mprtcz.tictactoeproject.game;
 
-import com.mprtcz.tictactoeproject.ui_elements.MessagesWrapper;
+import com.mprtcz.tictactoeproject.utils.MessagesWrapper;
 
 import java.lang.reflect.MalformedParametersException;
 
@@ -24,35 +24,43 @@ public class ExceptionsCreator {
     }
 
     public IllegalStateException createBoardFullException() {
-        return new IllegalStateException(messagesWrapper.getString("BOARD_FULL_EXCEPTION_MESSAGE"));
+        return new IllegalStateException(
+                messagesWrapper.getString("BOARD_FULL_EXCEPTION_MESSAGE"));
     }
 
     public MalformedParametersException createFieldNumberConversionException() {
-        return new MalformedParametersException(messagesWrapper.getString("NUMBER_FIELD_CONVERSION_EXCEPTION_MESSAGE"));
+        return new MalformedParametersException
+                (messagesWrapper.getString("NUMBER_FIELD_CONVERSION_EXCEPTION_MESSAGE"));
     }
 
     public MalformedParametersException createFieldTakenException() {
-        return new MalformedParametersException(messagesWrapper.getString("FIELD_TAKEN_EXCEPTION_MESSAGE"));
+        return new MalformedParametersException(
+                messagesWrapper.getString("FIELD_TAKEN_EXCEPTION_MESSAGE"));
     }
 
     public MalformedParametersException createBoardTooSmallException() {
-        return new MalformedParametersException(messagesWrapper.getString("BOARD_NOT_THAT_BIG"));
+        return new MalformedParametersException(
+                messagesWrapper.getString("BOARD_NOT_THAT_BIG"));
     }
 
     public MalformedParametersException createIncorrectBoardSizeException() {
-        return new MalformedParametersException(messagesWrapper.getString("SPECIFY_CORRECT_BOARD_SIZE_EXCEPTION_MESSAGE"));
+        return new MalformedParametersException(
+                messagesWrapper.getString("SPECIFY_CORRECT_BOARD_SIZE_EXCEPTION_MESSAGE"));
     }
 
     public MalformedParametersException createIncorrectDimensionsException() {
-        return new MalformedParametersException(messagesWrapper.getString("INCORRECT_BOARD_DIMENSIONS_EXCEPTION_MESSAGE"));
+        return new MalformedParametersException(
+                messagesWrapper.getString("INCORRECT_BOARD_DIMENSIONS_EXCEPTION_MESSAGE"));
     }
 
     public MalformedParametersException createSpecifyYesNoException() {
-        return new MalformedParametersException(messagesWrapper.getString("PLEASE_SPECIFY_YES_NO"));
+        return new MalformedParametersException(
+                messagesWrapper.getString("PLEASE_SPECIFY_YES_NO"));
     }
 
     public MalformedParametersException createBoardDimensionsExceedException(int min, int max) {
-        throw new MalformedParametersException(String.format(messagesWrapper.getString("BOARD_PARAMS_EXCEED_ACCEPTABLE_EXCEPTION_MESSAGE"), min, max));
-
+        throw new MalformedParametersException(
+                String.format(
+                        messagesWrapper.getString("BOARD_PARAMS_EXCEED_ACCEPTABLE_EXCEPTION_MESSAGE"), min, max));
     }
 }

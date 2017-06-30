@@ -2,6 +2,8 @@ package com.mprtcz.tictactoeproject.ui_elements;
 
 import com.mprtcz.tictactoeproject.game.board.Board;
 import com.mprtcz.tictactoeproject.player.Player;
+import com.mprtcz.tictactoeproject.utils.LocaleManager;
+import com.mprtcz.tictactoeproject.utils.MessagesWrapper;
 
 import java.util.Scanner;
 
@@ -15,6 +17,10 @@ public class CommandLineUi {
 
     public CommandLineUi(Scanner scanner) {
         this.scanner = scanner;
+        this.messagesWrapper = new MessagesWrapper();
+    }
+
+    public void updateCommandLineLocale() {
         this.messagesWrapper = new MessagesWrapper();
     }
 
@@ -52,6 +58,14 @@ public class CommandLineUi {
 
     public String askForAnotherGame() {
         System.out.println(messagesWrapper.getString("PLAY_AGAIN_QUESTION"));
+        return scanner.nextLine();
+    }
+
+    public String getUserLocaleInput(LocaleManager.AvailableLocale[] values) {
+        System.out.println(messagesWrapper.getString("CHOOSE_LANGUAGE"));
+        for (LocaleManager.AvailableLocale value : values) {
+            System.out.println(String.format(messagesWrapper.getString("TYPE_A_LANGUAGE"), value.getNameShort(), value.getLocaleName()));
+        }
         return scanner.nextLine();
     }
 }

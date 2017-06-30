@@ -1,4 +1,4 @@
-package com.mprtcz.tictactoeproject.ui_elements;
+package com.mprtcz.tictactoeproject.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
