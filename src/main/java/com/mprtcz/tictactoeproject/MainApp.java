@@ -1,11 +1,11 @@
 package com.mprtcz.tictactoeproject;
 
-import com.mprtcz.tictactoeproject.game.Game;
+import com.mprtcz.tictactoeproject.game.TicTacToeGame;
 import com.mprtcz.tictactoeproject.game.GameMode;
 import com.mprtcz.tictactoeproject.game.MoveValidator;
 import com.mprtcz.tictactoeproject.game.WinningConditionChecker;
 import com.mprtcz.tictactoeproject.game.board.*;
-import com.mprtcz.tictactoeproject.player.Players;
+import com.mprtcz.tictactoeproject.player.TicTacToePlayers;
 import com.mprtcz.tictactoeproject.ui_elements.CommandLineUi;
 import com.mprtcz.tictactoeproject.ui_elements.InputValidator;
 import com.mprtcz.tictactoeproject.utils.LocaleManager;
@@ -23,15 +23,15 @@ public class MainApp {
         boolean mainLoopRunning = true;
         CommandLineUi commandLineUi = new CommandLineUi(new Scanner(System.in));
         chooseLocale(commandLineUi);
-        Players players = new Players(GameMode.TWO_PLAYERS);
+        TicTacToePlayers ticTacToePlayers = new TicTacToePlayers(GameMode.TWO_PLAYERS);
         while(mainLoopRunning) {
             Board board = validateAndInitializeBoard(commandLineUi);
-            Game game = new Game(board, players, commandLineUi,
+            TicTacToeGame ticTacToeGame = new TicTacToeGame(board, ticTacToePlayers, commandLineUi,
                     new MoveValidator(), new WinningConditionChecker(), new BoardManager(board));
-            game.play();
+            ticTacToeGame.play();
             mainLoopRunning = processNextGameAnswer(commandLineUi);
             if(mainLoopRunning) {
-                players.reversePlayersSigns();
+                ticTacToePlayers.reversePlayersSigns();
             }
         }
         System.out.println("Hope you enjoyed the game, please like and subscribe for more content!\n" +

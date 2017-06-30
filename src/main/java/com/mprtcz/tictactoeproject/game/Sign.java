@@ -4,7 +4,7 @@ package com.mprtcz.tictactoeproject.game;
  * @author Michal_Partacz
  * @since 28.06.2017.
  */
-public enum Sign {
+public enum Sign implements GameElement {
     X(-1, "X"),
     O(1, "O"),
     EMPTY(0, ".");

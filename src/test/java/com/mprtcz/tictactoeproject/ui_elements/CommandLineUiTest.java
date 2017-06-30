@@ -1,7 +1,7 @@
 package com.mprtcz.tictactoeproject.ui_elements;
 
 import com.mprtcz.tictactoeproject.game.Sign;
-import com.mprtcz.tictactoeproject.player.Player;
+import com.mprtcz.tictactoeproject.player.TicTacToePlayer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -36,7 +36,7 @@ public class CommandLineUiTest {
     }
 
     public void getFieldFromUserTest() {
-        assertEquals("Data", commandLineUi.getFieldFromTheUser(new Player("Name", Sign.EMPTY)));
+        assertEquals("Data", commandLineUi.getFieldFromTheUser(new TicTacToePlayer("Name", Sign.EMPTY)));
     }
 
     public void getArrayDimensionsTest() {

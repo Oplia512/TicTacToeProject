@@ -1,49 +1,17 @@
 package com.mprtcz.tictactoeproject.player;
 
-import com.mprtcz.tictactoeproject.game.Sign;
+import com.mprtcz.tictactoeproject.game.GameElement;
 
 /**
  * @author Michal_Partacz
- * @since 28.06.2017.
+ * @since 30.06.2017.
  */
-public class Player {
-    private String name;
-    private int score;
-    private Sign playerSign;
-    private Sign sign;
+public interface Player {
+    String getName();
 
-    public Player(String name, Sign playerSign) {
-        this.name = name;
-        this.score = 0;
-        this.playerSign = playerSign;
-    }
+    void increasePoints();
 
-    public Sign getPlayerSign() {
-        return playerSign;
-    }
+    int getScore();
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                ", score=" + score +
-                ", playerSign=" + playerSign +
-                '}';
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void increasePoints() {
-        this.score++;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setSign(Sign sign) {
-        this.sign = sign;
-    }
+    GameElement getGameElement();
 }

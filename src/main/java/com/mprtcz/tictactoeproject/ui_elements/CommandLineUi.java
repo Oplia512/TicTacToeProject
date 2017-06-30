@@ -36,7 +36,7 @@ public class CommandLineUi {
     }
 
     public String getFieldFromTheUser(Player currentPlayer) {
-        System.out.println(String.format(messagesWrapper.getString("TYPE_FIELD_NUMBER"), currentPlayer.getName(), currentPlayer.getPlayerSign()));
+        System.out.println(String.format(messagesWrapper.getString("TYPE_FIELD_NUMBER"), currentPlayer.getName(), currentPlayer.getGameElement()));
         return this.scanner.nextLine();
     }
 
@@ -52,7 +52,7 @@ public class CommandLineUi {
     public void displayWinningMessage(Player currentPlayer) {
         System.out.println(String.format(messagesWrapper.getString("DISPLAY_GAME_WINNER"),
                 currentPlayer.getName(),
-                currentPlayer.getPlayerSign(),
+                currentPlayer.getGameElement(),
                 currentPlayer.getScore()));
     }
 

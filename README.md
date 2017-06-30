@@ -1,5 +1,5 @@
 # TicTacToeDesktop
-A stub implementation of a tic tac toe game with desktop ui.
+A stub implementation of a tic tac toe ticTacToeGame with desktop ui.
 
 In order to run this glorious application, you must:
 1. Clone this repository to your local repo (in order to do it, you have to have [Git](https://git-scm.com/) installed)
@@ -11,7 +11,7 @@ In order to run this glorious application, you must:
 6. Open command line and type `java -jar TicTacToe-1.0-SNAPSHOT.jar`
 
 What already has been implemented:
-1. Player vs player game
+1. Player vs player ticTacToeGame
 2. Player's score is stored
 3. Player can start multiple games
 4. Player can determine how big the board is
