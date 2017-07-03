@@ -29,7 +29,12 @@ public class ServerApp {
 
                 @Override
                 public void serverIsReady() {
-                    netProvider.connectServerToClient();
+                    try {
+                        netProvider.connectServerToClient();
+                    } catch (IOException e) {
+                        System.out.println("Waiting time is out!");
+                        netProvider.closeConnection();
+                    }
                 }
             }, new CommunicatorListener() {
                 @Override

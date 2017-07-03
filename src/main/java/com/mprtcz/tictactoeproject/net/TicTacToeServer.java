@@ -15,9 +15,6 @@ public class TicTacToeServer extends ServerSocket implements ServerClientDataTra
     static final int PORT = 3000;
     private boolean inProcess;
 
-
-    private DataInputStream inputStream;
-    private DataOutputStream outputStream;
     private NetProviderInitListener netProviderListener;
     private CommunicatorListener communicatorListener;
 
@@ -31,46 +28,48 @@ public class TicTacToeServer extends ServerSocket implements ServerClientDataTra
 
     void connectToClient() throws SecurityException, IOException{
         Socket client = accept();
-        inputStream = new DataInputStream(client.getInputStream());
-        outputStream = new DataOutputStream(client.getOutputStream());
         if (netProviderListener != null){
             netProviderListener.clientConnected();
         }
         inProcess = true;
-        try{
-            startToCommunicate();
+        try (DataInputStream inputStream = new DataInputStream(client.getInputStream());
+             DataOutputStream outputStream = new DataOutputStream(client.getOutputStream())){
+            startToCommunicate(inputStream);
         } catch (IOException e){
             e.getMessage();
             inProcess = false;
         } finally {
-            if (inputStream != null){
-                inputStream.close();
-            }
-            if (outputStream != null){
-                outputStream.close();
-            }
             close();
         }
-
     }
 
-    private String getMessage() throws IOException {
+    private String getMessage(DataInputStream inputStream) throws IOException {
        return inputStream.readUTF();
     }
 
-
-    private void startToCommunicate() throws IOException {
+    private void startToCommunicate(DataInputStream inputStream) throws IOException {
         while (inProcess){
-           String message = getMessage();
+           String message = getMessage(inputStream);
            if (communicatorListener != null){
                communicatorListener.onReceivedMessage(message);
            }
-
         }
     }
 
     @Override
     public void sendMessage(String message) {
+
+    }
+
+    @Override
+    public void closeConnection() {
+        inProcess = false;
+        try {
+            close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }

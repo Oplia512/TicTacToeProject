@@ -10,30 +10,30 @@ import java.util.Scanner;
 /**
  * Created by sergey on 03.07.17.
  */
-public class TicTacToeClient extends Socket implements ServerClientDataTransferInterface{
+public class TicTacToeClient extends Socket implements ServerClientDataTransferInterface {
 
     static final int PORT = 3000;
 
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
-    private NetProviderInitListener netProviderInitListener;
-
-    public TicTacToeClient(InetAddress address, NetProviderInitListener netProviderInitListener) throws IOException {
+    private CommunicatorListener communicatorListener;
+    public TicTacToeClient(InetAddress address, CommunicatorListener communicatorListener) throws IOException {
         super(address, PORT);
-        dataInputStream = new DataInputStream(getInputStream());
-        dataOutputStream = new DataOutputStream(getOutputStream());
-        this.netProviderInitListener = netProviderInitListener;
-        if (netProviderInitListener != null){
-            netProviderInitListener.clientIsReady();
-        }
+        this.communicatorListener = communicatorListener;
     }
 
     @Override
     public void sendMessage(String message) {
+        try (DataOutputStream outputStream = new DataOutputStream(getOutputStream())) {
+            outputStream.writeUTF(message);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void closeConnection() {
         try {
-            dataOutputStream.writeUTF(message);
-            dataOutputStream.flush();
+            close();
         } catch (IOException e) {
             e.printStackTrace();
         }

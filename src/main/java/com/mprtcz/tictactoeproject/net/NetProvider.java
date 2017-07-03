@@ -17,33 +17,35 @@ public class NetProvider {
 
     public void initProvider(boolean isServer, NetProviderInitListener listener, CommunicatorListener communicatorListener) throws IOException {
         this.isServer = isServer;
-        if (isServer){
-           dataTransferInterface = initServer();
-        } else {
-            dataTransferInterface = initClient();
-        }
         this.netProviderInitListener = listener;
         this.communicatorListener = communicatorListener;
+
+        if (isServer){
+           dataTransferInterface = initServer();
+           listener.serverIsReady();
+        } else {
+            dataTransferInterface = initClient();
+            listener.clientIsReady();
+        }
     }
 
     private ServerClientDataTransferInterface initServer() throws IOException {
         return new TicTacToeServer(netProviderInitListener, communicatorListener);
     }
 
-    public void connectServerToClient() {
-        try {
-            ((TicTacToeServer) dataTransferInterface).connectToClient();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void connectServerToClient() throws IOException {
+        ((TicTacToeServer) dataTransferInterface).connectToClient();
     }
 
-
     private ServerClientDataTransferInterface initClient() throws IOException{
-        return new TicTacToeClient(InetAddress.getLocalHost(), netProviderInitListener);
+        return new TicTacToeClient(InetAddress.getLocalHost(), communicatorListener);
     }
 
     public void sendMessage(String message) {
         dataTransferInterface.sendMessage(message);
+    }
+
+    public void closeConnection(){
+        dataTransferInterface.closeConnection();
     }
 }

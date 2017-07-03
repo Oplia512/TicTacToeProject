@@ -29,7 +29,7 @@ public class ServerTest {
     public void testServerCreation(int testId, int port, boolean result){
         TicTacToeServer server = null;
         try {
-            server = new TicTacToeServer();
+            server = new TicTacToeServer(null, null);
             assertNotNull(server);
             assertEquals(port == server.getLocalPort(), result, String.format("Expected result %b, Port %d, testID %d", result, server.getLocalPort(), testId));
             server.close();

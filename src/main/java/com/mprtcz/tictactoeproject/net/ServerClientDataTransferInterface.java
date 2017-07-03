@@ -8,4 +8,5 @@ import java.io.IOException;
 public interface ServerClientDataTransferInterface {
 
    void sendMessage(String message);
+   void closeConnection();
 }
