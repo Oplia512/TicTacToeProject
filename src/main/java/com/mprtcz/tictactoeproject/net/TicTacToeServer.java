@@ -11,7 +11,7 @@ import java.net.*;
 public class TicTacToeServer extends ServerSocket implements ServerClientDataTransferInterface {
 
     private static final int BACKLOG = 1;
-    private static final int SOCKET_WAITING_TIME_OUT = 15000;
+    private static final int SOCKET_WAITING_TIME_OUT = 30000;
     static final int PORT = 3000;
     private boolean inProcess;
 
@@ -20,7 +20,7 @@ public class TicTacToeServer extends ServerSocket implements ServerClientDataTra
 
 
     TicTacToeServer(NetProviderInitListener netProviderListener, CommunicatorListener communicatorListener) throws IOException {
-        super(PORT, BACKLOG);
+        super(PORT, BACKLOG, InetAddress.getLocalHost());
         setSoTimeout(SOCKET_WAITING_TIME_OUT);
         this.netProviderListener = netProviderListener;
         this.communicatorListener = communicatorListener;

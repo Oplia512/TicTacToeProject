@@ -15,6 +15,7 @@ public class TicTacToeClient extends Socket implements ServerClientDataTransferI
     static final int PORT = 3000;
 
     private CommunicatorListener communicatorListener;
+
     public TicTacToeClient(InetAddress address, CommunicatorListener communicatorListener) throws IOException {
         super(address, PORT);
         this.communicatorListener = communicatorListener;

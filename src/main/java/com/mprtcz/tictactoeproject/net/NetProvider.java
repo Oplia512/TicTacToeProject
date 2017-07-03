@@ -21,8 +21,8 @@ public class NetProvider {
         this.communicatorListener = communicatorListener;
 
         if (isServer){
-           dataTransferInterface = initServer();
-           listener.serverIsReady();
+            dataTransferInterface = initServer();
+            listener.serverIsReady();
         } else {
             dataTransferInterface = initClient();
             listener.clientIsReady();
