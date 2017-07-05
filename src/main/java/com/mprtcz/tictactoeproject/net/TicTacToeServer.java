@@ -1,75 +1,59 @@
 package com.mprtcz.tictactoeproject.net;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import com.mprtcz.tictactoeproject.net.interfces.CommunicatorListener;
+import com.mprtcz.tictactoeproject.net.interfces.NetProviderInitListener;
+
+import java.io.*;
 import java.net.*;
 
 /**
  * Created by sergey on 03.07.17.
  */
-public class TicTacToeServer extends ServerSocket implements ServerClientDataTransferInterface {
+public class TicTacToeServer {
 
     private static final int BACKLOG = 1;
     private static final int SOCKET_WAITING_TIME_OUT = 30000;
-    static final int PORT = 3000;
-    private boolean inProcess;
+    static final int[] PORT = {3000, 3001};
+
 
     private NetProviderInitListener netProviderListener;
     private CommunicatorListener communicatorListener;
+    private ServerSocket server;
 
-
-    TicTacToeServer(NetProviderInitListener netProviderListener, CommunicatorListener communicatorListener) throws IOException {
-        super(PORT, BACKLOG, InetAddress.getLocalHost());
-        setSoTimeout(SOCKET_WAITING_TIME_OUT);
+    TicTacToeServer(NetProviderInitListener netProviderListener, CommunicatorListener communicatorListener, int portId) throws IOException {
+        server = new ServerSocket(PORT[portId], BACKLOG, InetAddress.getLocalHost());
+        server.setSoTimeout(SOCKET_WAITING_TIME_OUT);
         this.netProviderListener = netProviderListener;
         this.communicatorListener = communicatorListener;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    connectToClient();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
-    void connectToClient() throws SecurityException, IOException{
-        Socket client = accept();
+    private void connectToClient() throws SecurityException, IOException{
+        Socket client = server.accept();
         if (netProviderListener != null){
             netProviderListener.clientConnected();
         }
-        inProcess = true;
-        try (DataInputStream inputStream = new DataInputStream(client.getInputStream());
-             DataOutputStream outputStream = new DataOutputStream(client.getOutputStream())){
-            startToCommunicate(inputStream);
-        } catch (IOException e){
-            e.getMessage();
-            inProcess = false;
-        } finally {
-            close();
-        }
+        startToListen(client);
     }
 
-    private String getMessage(DataInputStream inputStream) throws IOException {
-       return inputStream.readUTF();
-    }
-
-    private void startToCommunicate(DataInputStream inputStream) throws IOException {
-        while (inProcess){
-           String message = getMessage(inputStream);
-           if (communicatorListener != null){
-               communicatorListener.onReceivedMessage(message);
-           }
-        }
-    }
-
-    @Override
-    public void sendMessage(String message) {
-
-    }
-
-    @Override
-    public void closeConnection() {
-        inProcess = false;
-        try {
-            close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+    private void startToListen(final Socket client) throws IOException {
+            try (DataInputStream inputStream = new DataInputStream(client.getInputStream())){
+                String message = "";
+                while (!message.equals("buy")){
+                    message = inputStream.readUTF();
+                    if (communicatorListener != null){
+                        communicatorListener.onReceivedMessage(message);
+                    }
+                }
+            }
     }
 }

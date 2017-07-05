@@ -1,42 +1,44 @@
 package com.mprtcz.tictactoeproject.net;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
  * Created by sergey on 03.07.17.
  */
-public class TicTacToeClient extends Socket implements ServerClientDataTransferInterface {
+public class TicTacToeClient {
 
-    static final int PORT = 3000;
+    static final int[] PORT = {3000, 3001};
 
-    private CommunicatorListener communicatorListener;
+    private Socket socket;
 
-    public TicTacToeClient(InetAddress address, CommunicatorListener communicatorListener) throws IOException {
-        super(address, PORT);
-        this.communicatorListener = communicatorListener;
+    public TicTacToeClient(InetAddress address, int portId) throws IOException {
+        socket = new Socket(address, PORT[portId]);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("server online");
+                try (DataOutputStream dataOutputStream = new DataOutputStream(getOutputStream()); BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
+                    String userInput;
+                    while ((userInput = stdIn.readLine()) != null) {
+                        dataOutputStream.writeUTF(userInput);
+                        dataOutputStream.flush();
+                    }
+                } catch (IOException e) {
+                    e.getMessage();
+                }
+            }
+        }).start();
     }
 
-    @Override
-    public void sendMessage(String message) {
-        try (DataOutputStream outputStream = new DataOutputStream(getOutputStream())) {
-            outputStream.writeUTF(message);
-            outputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private OutputStream getOutputStream() throws IOException {
+        return socket.getOutputStream();
     }
 
-    @Override
-    public void closeConnection() {
-        try {
-            close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private InputStream getInputStream() throws IOException {
+        return socket.getInputStream();
     }
+
+
 }

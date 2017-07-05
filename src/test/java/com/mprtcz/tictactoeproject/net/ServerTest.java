@@ -27,15 +27,7 @@ public class ServerTest {
 
     @Test(dataProvider = "serverDataProvider")
     public void testServerCreation(int testId, int port, boolean result){
-        TicTacToeServer server = null;
-        try {
-            server = new TicTacToeServer(null, null);
-            assertNotNull(server);
-            assertEquals(port == server.getLocalPort(), result, String.format("Expected result %b, Port %d, testID %d", result, server.getLocalPort(), testId));
-            server.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
 
 

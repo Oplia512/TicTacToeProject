@@ -1,51 +1,71 @@
 package com.mprtcz.tictactoeproject.net;
 
+import com.mprtcz.tictactoeproject.net.interfces.CommunicatorListener;
+import com.mprtcz.tictactoeproject.net.interfces.NetProviderInitListener;
+
 import java.io.IOException;
+import java.net.BindException;
+import java.net.ConnectException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * Created by sergey on 03.07.17.
  */
 public class NetProvider {
 
-    private ServerClientDataTransferInterface dataTransferInterface;
-    private boolean isServer;
+    private TicTacToeClient client;
+    private TicTacToeServer server;
     private NetProviderInitListener netProviderInitListener;
-    private CommunicatorListener communicatorListener;
 
+    private int serverPortId;
 
-    public void initProvider(boolean isServer, NetProviderInitListener listener, CommunicatorListener communicatorListener) throws IOException {
-        this.isServer = isServer;
+    public void initProvider(NetProviderInitListener listener, CommunicatorListener communicatorListener) throws IOException {
         this.netProviderInitListener = listener;
-        this.communicatorListener = communicatorListener;
-
-        if (isServer){
-            dataTransferInterface = initServer();
-            listener.serverIsReady();
-        } else {
-            dataTransferInterface = initClient();
-            listener.clientIsReady();
+        try {
+            server = new TicTacToeServer(netProviderInitListener, communicatorListener, 0);
+            serverPortId = 0;
+        } catch (BindException e) {
+            server = new TicTacToeServer(netProviderInitListener, communicatorListener, 1);
+            serverPortId = 1;
+        }
+        if (listener != null) {
+            listener.serverCreated();
         }
     }
 
-    private ServerClientDataTransferInterface initServer() throws IOException {
-        return new TicTacToeServer(netProviderInitListener, communicatorListener);
+    public void connectToServer() throws IOException {
+        int clientPort = 0;
+        if (serverPortId == 0){
+            clientPort = 1;
+        }
+        for (int i = 0; i < 5; i++) {
+            if (client != null) break;
+            try {
+                try {
+                    client = new TicTacToeClient(InetAddress.getLocalHost(), clientPort);
+                } catch (BindException e) {
+                    client = new TicTacToeClient(InetAddress.getLocalHost(), clientPort);
+                }
+
+                if (netProviderInitListener != null) {
+                    netProviderInitListener.clientCreated();
+                }
+
+            } catch (ConnectException e){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
     }
 
-    public void connectServerToClient() throws IOException {
-        ((TicTacToeServer) dataTransferInterface).connectToClient();
+    public TicTacToeClient getClient() {
+        return client;
     }
 
-    private ServerClientDataTransferInterface initClient() throws IOException{
-        return new TicTacToeClient(InetAddress.getLocalHost(), communicatorListener);
-    }
-
-    public void sendMessage(String message) {
-        dataTransferInterface.sendMessage(message);
-    }
-
-    public void closeConnection(){
-        dataTransferInterface.closeConnection();
+    public TicTacToeServer getServer() {
+        return server;
     }
 }
