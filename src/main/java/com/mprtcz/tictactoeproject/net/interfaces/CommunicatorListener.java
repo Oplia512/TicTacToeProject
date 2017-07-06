@@ -1,4 +1,4 @@
-package com.mprtcz.tictactoeproject.net.interfces;
+package com.mprtcz.tictactoeproject.net.interfaces;
 
 /**
  * Created by sergey on 03.07.17.

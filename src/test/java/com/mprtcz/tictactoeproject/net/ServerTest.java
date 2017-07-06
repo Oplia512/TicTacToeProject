@@ -14,7 +14,7 @@ public class ServerTest {
     public Object[][] serverProvider(){
         return new Object[][]{
                 {1, 200, false},
-                {2, TicTacToeServerProvider.PORT, true},
+                {2, 3000, true},
 
         };
     }
