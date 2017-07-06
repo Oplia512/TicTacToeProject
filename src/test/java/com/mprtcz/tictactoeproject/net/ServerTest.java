@@ -3,11 +3,6 @@ package com.mprtcz.tictactoeproject.net;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-
-import static org.testng.Assert.*;
-
 /**
  * Created by sergey on 03.07.17.
  */
@@ -19,7 +14,7 @@ public class ServerTest {
     public Object[][] serverProvider(){
         return new Object[][]{
                 {1, 200, false},
-                {2, TicTacToeServer.PORT, true},
+                {2, TicTacToeServerProvider.PORT, true},
 
         };
     }

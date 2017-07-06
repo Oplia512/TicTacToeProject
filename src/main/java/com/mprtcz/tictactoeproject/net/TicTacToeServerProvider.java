@@ -6,38 +6,59 @@ import com.mprtcz.tictactoeproject.net.interfces.NetProviderInitListener;
 import java.io.*;
 import java.net.*;
 
+import static com.mprtcz.tictactoeproject.net.NetProvider.PORT;
+
 /**
  * Created by sergey on 03.07.17.
  */
-public class TicTacToeServer {
+ class TicTacToeServerProvider {
 
     private static final int BACKLOG = 1;
     private static final int SOCKET_WAITING_TIME_OUT = 30000;
-    static final int[] PORT = {3000, 3001};
 
 
     private NetProviderInitListener netProviderListener;
     private CommunicatorListener communicatorListener;
-    private ServerSocket server;
 
-    TicTacToeServer(NetProviderInitListener netProviderListener, CommunicatorListener communicatorListener, int portId) throws IOException {
-        server = new ServerSocket(PORT[portId], BACKLOG, InetAddress.getLocalHost());
-        server.setSoTimeout(SOCKET_WAITING_TIME_OUT);
+    TicTacToeServerProvider(NetProviderInitListener netProviderListener, CommunicatorListener communicatorListener) throws IOException {
         this.netProviderListener = netProviderListener;
         this.communicatorListener = communicatorListener;
+    }
+
+    public int tryToCreateServer(){
+        try{
+            try {
+                createServerSocket(PORT[0]);
+                return PORT[0];
+            } catch (BindException e){
+                createServerSocket(PORT[1]);
+                return PORT[1];
+            }
+        } catch (IOException io){
+            io.getMessage();
+            return -1;
+        }
+    }
+
+    private void createServerSocket(final int portId) throws BindException{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    connectToClient();
-                } catch (IOException e) {
+                try(ServerSocket serverSocket = new ServerSocket(PORT[portId], BACKLOG, InetAddress.getLocalHost())) {
+                    serverSocket.setSoTimeout(SOCKET_WAITING_TIME_OUT);
+                    if (netProviderListener != null){
+                        netProviderListener.serverCreated();
+                    }
+                    connectToClient(serverSocket);
+
+                }catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
     }
 
-    private void connectToClient() throws SecurityException, IOException{
+    private void connectToClient(ServerSocket server) throws SecurityException, IOException{
         Socket client = server.accept();
         if (netProviderListener != null){
             netProviderListener.clientConnected();

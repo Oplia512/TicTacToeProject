@@ -13,59 +13,38 @@ import java.net.InetAddress;
  */
 public class NetProvider {
 
-    private TicTacToeClient client;
-    private TicTacToeServer server;
-    private NetProviderInitListener netProviderInitListener;
+    public static final int[] PORT = {3000, 3001};
 
-    private int serverPortId;
+    private TicTacToeClientProvider clientProvider;
+    private TicTacToeServerProvider serverProvider;
 
-    public void initProvider(NetProviderInitListener listener, CommunicatorListener communicatorListener) throws IOException {
-        this.netProviderInitListener = listener;
-        try {
-            server = new TicTacToeServer(netProviderInitListener, communicatorListener, 0);
-            serverPortId = 0;
-        } catch (BindException e) {
-            server = new TicTacToeServer(netProviderInitListener, communicatorListener, 1);
-            serverPortId = 1;
+
+    private NetProviderInitListener netProviderInitListener = new NetProviderInitListener() {
+        @Override
+        public void clientConnected() {
+
         }
-        if (listener != null) {
-            listener.serverCreated();
+
+        @Override
+        public void serverCreated() {
+
         }
-    }
 
-    public void connectToServer() throws IOException {
-        int clientPort = 0;
-        if (serverPortId == 0){
-            clientPort = 1;
+        @Override
+        public void clientCreated() {
+
         }
-        for (int i = 0; i < 5; i++) {
-            if (client != null) break;
-            try {
-                try {
-                    client = new TicTacToeClient(InetAddress.getLocalHost(), clientPort);
-                } catch (BindException e) {
-                    client = new TicTacToeClient(InetAddress.getLocalHost(), clientPort);
-                }
+    };
 
-                if (netProviderInitListener != null) {
-                    netProviderInitListener.clientCreated();
-                }
-
-            } catch (ConnectException e){
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-            }
+    public void initProvider(CommunicatorListener communicatorListener) throws IOException {
+        serverProvider = new TicTacToeServerProvider(netProviderInitListener, communicatorListener);
+        clientProvider = new TicTacToeClientProvider(InetAddress.getLocalHost());
+        int serverPort = serverProvider.tryToCreateServer();
+        if (serverPort == PORT[0]){
+            clientProvider.createSocket(PORT[1]);
+        } else {
+            clientProvider.createSocket(PORT[0]);
         }
     }
 
-    public TicTacToeClient getClient() {
-        return client;
-    }
-
-    public TicTacToeServer getServer() {
-        return server;
-    }
 }
