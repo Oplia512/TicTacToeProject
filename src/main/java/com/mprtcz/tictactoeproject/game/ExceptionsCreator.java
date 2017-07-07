@@ -63,4 +63,10 @@ public class ExceptionsCreator {
                 String.format(
                         messagesWrapper.getString("BOARD_PARAMS_EXCEED_ACCEPTABLE_EXCEPTION_MESSAGE"), min, max));
     }
+
+    public IllegalArgumentException createIllegalInputException() {
+        throw new MalformedParametersException(
+                messagesWrapper.getString("INCORRECT_INPUT_EXCEPTION_MESSAGE"));
+    }
 }
+

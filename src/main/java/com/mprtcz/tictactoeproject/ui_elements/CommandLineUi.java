@@ -1,5 +1,6 @@
 package com.mprtcz.tictactoeproject.ui_elements;
 
+import com.mprtcz.tictactoeproject.game.GameMode;
 import com.mprtcz.tictactoeproject.game.board.Board;
 import com.mprtcz.tictactoeproject.player.Player;
 import com.mprtcz.tictactoeproject.utils.LocaleManager;
@@ -11,7 +12,7 @@ import java.util.Scanner;
  * @author Michal_Partacz
  * @since 28.06.2017.
  */
-public class CommandLineUi {
+public class CommandLineUi implements NetCommandLine{
     private MessagesWrapper messagesWrapper;
     private Scanner scanner;
 
@@ -64,7 +65,15 @@ public class CommandLineUi {
     public String getUserLocaleInput(LocaleManager.AvailableLocale[] values) {
         System.out.println(messagesWrapper.getString("CHOOSE_LANGUAGE"));
         for (LocaleManager.AvailableLocale value : values) {
-            System.out.println(String.format(messagesWrapper.getString("TYPE_A_LANGUAGE"), value.getNameShort(), value.getLocaleName()));
+            System.out.println(String.format(messagesWrapper.getString("TYPE_A_TWO_PARAM_INPUT"), value.getNameShort(), value.getLocaleName()));
+        }
+        return scanner.nextLine();
+    }
+
+    public String askForGameMode(){
+        System.out.println(messagesWrapper.getString("CHOOSE_GAME_MODE"));
+        for (GameMode mode : GameMode.values()) {
+            System.out.println(String.format(messagesWrapper.getString("TYPE_A_TWO_PARAM_INPUT"), mode.getMarker(), mode.getName()));
         }
         return scanner.nextLine();
     }

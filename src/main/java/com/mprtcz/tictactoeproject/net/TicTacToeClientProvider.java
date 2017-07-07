@@ -18,6 +18,7 @@ class TicTacToeClientProvider {
     private InetAddress address;
     private int tries = 0;
     private ConnectionProviderInitListener connectionProviderInitListener;
+    private Thread thread;
 
     TicTacToeClientProvider(ConnectionProviderInitListener connectionProviderInitListener, InetAddress address) throws IOException {
         this.address = address;
@@ -50,7 +51,7 @@ class TicTacToeClientProvider {
     }
 
     private void createSocket(int port, SocketCreationListener creationListener) {
-        new Thread(new Runnable() {
+        thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try (Socket socket = new Socket(address, port);
@@ -60,16 +61,12 @@ class TicTacToeClientProvider {
                         creationListener.socketCreated(port);
                     }
                     String userInput;
-                    while ((userInput = stdIn.readLine()) != null) {
+                    while (!thread.isInterrupted() && (userInput = stdIn.readLine()) != null) {
                         dataOutputStream.writeUTF(userInput);
                         dataOutputStream.flush();
-                        if (userInput.equals("buy")) {
-                            dataOutputStream.close();
-                            stdIn.close();
-                            socket.close();
-                            connectionProviderInitListener.connectionClosed();
-                            return;
-                        }
+                    }
+                    if (thread.isInterrupted()){
+                        connectionProviderInitListener.clientConnectionClosed();
                     }
                 } catch (IOException e) {
                     if (creationListener != null) {
@@ -78,6 +75,11 @@ class TicTacToeClientProvider {
 
                 }
             }
-        }).start();
+        });
+        thread.start();
+    }
+
+    void closeConnection(){
+        thread.interrupt();
     }
 }

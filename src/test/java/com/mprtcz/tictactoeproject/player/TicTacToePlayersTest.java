@@ -17,11 +17,11 @@ public class TicTacToePlayersTest {
 
     @BeforeMethod
     public void createPlayersObject() {
-        this.ticTacToePlayers = new TicTacToePlayers(GameMode.ONE_PLAYER);
+        this.ticTacToePlayers = new TicTacToePlayers(GameMode.TWO_PLAYERS);
     }
 
     public void createPlayersTest() {
-        assertEquals(GameMode.ONE_PLAYER, ticTacToePlayers.getGameMode());
+        assertEquals(GameMode.TWO_PLAYERS, ticTacToePlayers.getGameMode());
         assertEquals("Player1", ticTacToePlayers.getPlayer1().getName());
         assertEquals("Player2", ticTacToePlayers.getPlayer2().getName());
         assertEquals(Sign.O, ticTacToePlayers.getPlayer1().getGameElement());

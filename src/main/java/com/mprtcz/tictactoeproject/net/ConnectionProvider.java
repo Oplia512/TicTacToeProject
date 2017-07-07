@@ -41,6 +41,17 @@ public class ConnectionProvider {
         }
 
         @Override
+        public void serverConnectionClosed() {
+            clientProvider.closeConnection();
+            stateListener.serverConnectionClosed();
+        }
+
+        @Override
+        public void clientConnectionClosed() {
+            serverProvider.closeConnection();
+        }
+
+        @Override
         public void clientConnectionFailed() {
             stateListener.clientConnectionFailed();
         }
@@ -48,11 +59,6 @@ public class ConnectionProvider {
         @Override
         public void serverCreationFailed() {
             stateListener.serverCreationFailed();
-        }
-
-        @Override
-        public void connectionClosed() {
-           stateListener.connectionClosed();
         }
 
     };
@@ -70,4 +76,6 @@ public class ConnectionProvider {
             clientProvider.tryToCreateSocket(PORT[0], connectionProviderInitListener);
         }
     }
+
+
 }

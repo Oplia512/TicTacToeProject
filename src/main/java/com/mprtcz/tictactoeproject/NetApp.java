@@ -25,9 +25,16 @@ public class NetApp {
             }
 
             @Override
-            public void connectionClosed() {
-                System.out.println("Connection closed!");
+            public void serverConnectionClosed() {
+                System.out.println("Server connection closed!");
             }
+
+            @Override
+            public void clientConnectionClosed() {
+                System.out.println("Client connection closed!");
+            }
+
+
         });
 
         try {

@@ -20,6 +20,7 @@ class TicTacToeServerProvider {
 
     private ConnectionProviderInitListener connectionProviderInitListener;
     private CommunicatorListener communicatorListener;
+    private Thread thread;
 
     TicTacToeServerProvider(ConnectionProviderInitListener netProviderListener, CommunicatorListener communicatorListener) throws IOException {
         this.connectionProviderInitListener = netProviderListener;
@@ -52,8 +53,14 @@ class TicTacToeServerProvider {
         });
     }
 
+    void closeConnection(){
+        thread.interrupt();
+    }
+
+
+
     private void createServerSocket(final int port, final SocketCreationListener creationListener) {
-        new Thread(new Runnable() {
+        thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try (ServerSocket serverSocket = new ServerSocket(port, BACKLOG, InetAddress.getLocalHost())) {
@@ -61,45 +68,39 @@ class TicTacToeServerProvider {
                     if (creationListener != null){
                         creationListener.socketCreated(port);
                     }
-                    connectClient(serverSocket, port);
+                    try (Socket client = serverSocket.accept();DataInputStream inputStream = new DataInputStream(client.getInputStream());
+                         DataOutputStream dataOutputStream = new DataOutputStream(client.getOutputStream())) {
+                        if (connectionProviderInitListener != null) {
+                            connectionProviderInitListener.clientConnected(port);
+                        }
+                        String message = "";
+                        while (!thread.isInterrupted()) {
+                            message = inputStream.readUTF();
+                            if (communicatorListener != null) {
+                                communicatorListener.onReceivedMessage(message);
+                            }
+                            if (message.equals("buy")){
+                                dataOutputStream.writeUTF("buy");
+                                dataOutputStream.flush();
+                                thread.interrupt();
+                                connectionProviderInitListener.serverConnectionClosed();
+                            }
+                        }
+                    }
 
                 } catch (BindException be) {
                     if (creationListener != null){
                         creationListener.creationFailed();
                     }
                 } catch (EOFException eof){
-                    connectionProviderInitListener.connectionClosed();
+                    thread.interrupt();
+                    connectionProviderInitListener.serverConnectionClosed();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        });
+        thread.start();
     }
 
-    private void connectClient(ServerSocket server, int port) throws SecurityException, IOException {
-        Socket client = server.accept();
-        if (connectionProviderInitListener != null) {
-            connectionProviderInitListener.clientConnected(port);
-        }
-        startToListen(client, server);
-    }
-
-    private void startToListen(final Socket client, final ServerSocket serverSocket) throws IOException {
-        try (DataInputStream inputStream = new DataInputStream(client.getInputStream())) {
-            String message = "";
-            while (true) {
-                message = inputStream.readUTF();
-                if (communicatorListener != null) {
-                    communicatorListener.onReceivedMessage(message);
-                }
-                if (message.equals("bye")){
-                    inputStream.close();
-                    client.close();
-                    serverSocket.close();
-                    connectionProviderInitListener.connectionClosed();
-                    return;
-                }
-            }
-        }
-    }
 }
