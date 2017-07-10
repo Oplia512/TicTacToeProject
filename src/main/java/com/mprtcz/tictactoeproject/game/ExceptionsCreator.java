@@ -68,5 +68,11 @@ public class ExceptionsCreator {
         throw new MalformedParametersException(
                 messagesWrapper.getString("INCORRECT_INPUT_EXCEPTION_MESSAGE"));
     }
+
+    public NullPointerException createNotInitializedException(String className) {
+        throw new NullPointerException(
+                String.format(
+                        messagesWrapper.getString("INSTANCE_WAS_NOT_INITIALIZED"), className));
+    }
 }
 

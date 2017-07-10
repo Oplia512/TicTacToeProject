@@ -1,11 +1,17 @@
 package com.mprtcz.tictactoeproject.net;
 
+import com.mprtcz.tictactoeproject.message.EventObserver;
+import com.mprtcz.tictactoeproject.message.event_impl.TicTacToeEvent;
 import com.mprtcz.tictactoeproject.net.interfaces.ConnectionProviderInitListener;
 import com.mprtcz.tictactoeproject.net.interfaces.SocketCreationListener;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+
+import static com.mprtcz.tictactoeproject.message.EventObserver.EventType.CLIENT_CONNECTION_FAILED;
+import static com.mprtcz.tictactoeproject.message.EventObserver.EventType.CLIENT_SOCKET_CREATED;
+import static com.mprtcz.tictactoeproject.message.EventObserver.EventType.CLIENT_SOCKET_DISCONNECTED;
 
 /**
  * Created by sergey on 03.07.17.
@@ -17,19 +23,21 @@ class TicTacToeClientProvider {
 
     private InetAddress address;
     private int tries = 0;
-    private ConnectionProviderInitListener connectionProviderInitListener;
     private Thread thread;
 
-    TicTacToeClientProvider(ConnectionProviderInitListener connectionProviderInitListener, InetAddress address) throws IOException {
+    TicTacToeClientProvider(InetAddress address) throws IOException {
         this.address = address;
-        this.connectionProviderInitListener = connectionProviderInitListener;
     }
 
-    void tryToCreateSocket(int portId, final ConnectionProviderInitListener connectionProviderInitListener) {
+    void tryToCreateSocket(int portId) {
         createSocket(portId, new SocketCreationListener() {
             @Override
             public void socketCreated(int port) {
-                connectionProviderInitListener.serverConnected(port);
+                EventObserver.getInstance().notifiObservers(
+                        new TicTacToeEvent.TicTakToeEventBuilder()
+                        .setType(CLIENT_SOCKET_CREATED)
+                        .setData(port)
+                        .createEvent());
             }
 
             @Override
@@ -43,7 +51,10 @@ class TicTacToeClientProvider {
                         e.printStackTrace();
                     }
                 } else {
-                    connectionProviderInitListener.clientConnectionFailed();
+                    EventObserver.getInstance().notifiObservers(
+                            new TicTacToeEvent.TicTakToeEventBuilder()
+                            .setType(CLIENT_CONNECTION_FAILED)
+                            .createEvent());
                 }
             }
         });
@@ -66,7 +77,12 @@ class TicTacToeClientProvider {
                         dataOutputStream.flush();
                     }
                     if (thread.isInterrupted()){
-                        connectionProviderInitListener.clientConnectionClosed();
+                        EventObserver.getInstance().notifiObservers(
+                                new TicTacToeEvent.TicTakToeEventBuilder()
+                                .setType(CLIENT_SOCKET_DISCONNECTED)
+                                .setData(port)
+                                .createEvent());
+
                     }
                 } catch (IOException e) {
                     if (creationListener != null) {

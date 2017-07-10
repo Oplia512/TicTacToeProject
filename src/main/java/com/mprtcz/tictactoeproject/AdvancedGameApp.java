@@ -2,6 +2,7 @@ package com.mprtcz.tictactoeproject;
 
 import com.mprtcz.tictactoeproject.game.*;
 import com.mprtcz.tictactoeproject.game.board.*;
+import com.mprtcz.tictactoeproject.message.EventObserver;
 import com.mprtcz.tictactoeproject.net.ConnectionProvider;
 import com.mprtcz.tictactoeproject.net.interfaces.CommunicatorListener;
 import com.mprtcz.tictactoeproject.net.interfaces.ConnectionProviderStateListener;
@@ -12,6 +13,7 @@ import com.mprtcz.tictactoeproject.utils.LocaleManager;
 
 import java.io.IOException;
 import java.lang.reflect.MalformedParametersException;
+import java.net.InetAddress;
 import java.util.Scanner;
 
 /**
@@ -21,6 +23,8 @@ public class AdvancedGameApp {
 
     public static void main(String[] args) {
         boolean mainLoopRunning = true;
+        EventObserver.init();
+
         CommandLineUi commandLineUi = new CommandLineUi(new Scanner(System.in));
         chooseLocale(commandLineUi);
         chooseGameMode(commandLineUi);
@@ -42,36 +46,13 @@ public class AdvancedGameApp {
                 break;
             case NET_GAME:
 
-                ConnectionProvider connectionProvider = new ConnectionProvider(new ConnectionProviderStateListener() {
-                    @Override
-                    public void clientConnectionFailed() {
-                        System.out.println("Client connection failed!");
-                    }
+                ConnectionProvider connectionProvider = new ConnectionProvider();
 
-                    @Override
-                    public void serverCreationFailed() {
-                        System.out.println("Server creation failed!");
-                    }
+                EventObserver.getInstance().addObserver(connectionProvider);
 
-                    @Override
-                    public void serverConnectionClosed() {
-                        System.out.println("Server connection closed!");
-                    }
-
-                    @Override
-                    public void clientConnectionClosed() {
-                        System.out.println("Client connection closed!");
-                    }
-
-                });
 
                 try {
-                    connectionProvider.initProvider(new CommunicatorListener() {
-                        @Override
-                        public void onReceivedMessage(String message) {
-                            System.out.println("message from client= [" + message + "]");
-                        }
-                    });
+                    connectionProvider.initProvider(InetAddress.getLocalHost(), InetAddress.getLocalHost());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
