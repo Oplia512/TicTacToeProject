@@ -2,8 +2,6 @@ package com.mprtcz.tictactoeproject.net;
 
 import com.mprtcz.tictactoeproject.message.Event;
 import com.mprtcz.tictactoeproject.message.EventProviderInterface;
-import com.mprtcz.tictactoeproject.net.interfaces.ConnectionProviderStateListener;
-import com.mprtcz.tictactoeproject.net.interfaces.ConnectionProviderInitListener;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -17,6 +15,7 @@ public class ConnectionProvider implements EventProviderInterface {
 
     private TicTacToeClientProvider clientProvider;
     private TicTacToeServerProvider serverProvider;
+
 
     public void initProvider(InetAddress currentAddress, InetAddress opponentAddress) throws IOException {
         serverProvider = new TicTacToeServerProvider(currentAddress);

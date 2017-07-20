@@ -4,8 +4,6 @@ import com.mprtcz.tictactoeproject.game.*;
 import com.mprtcz.tictactoeproject.game.board.*;
 import com.mprtcz.tictactoeproject.message.EventObserver;
 import com.mprtcz.tictactoeproject.net.ConnectionProvider;
-import com.mprtcz.tictactoeproject.net.interfaces.CommunicatorListener;
-import com.mprtcz.tictactoeproject.net.interfaces.ConnectionProviderStateListener;
 import com.mprtcz.tictactoeproject.player.TicTacToePlayers;
 import com.mprtcz.tictactoeproject.ui_elements.CommandLineUi;
 import com.mprtcz.tictactoeproject.ui_elements.InputValidator;

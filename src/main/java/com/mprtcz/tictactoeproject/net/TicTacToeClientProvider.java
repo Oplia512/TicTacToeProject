@@ -2,16 +2,16 @@ package com.mprtcz.tictactoeproject.net;
 
 import com.mprtcz.tictactoeproject.message.EventObserver;
 import com.mprtcz.tictactoeproject.message.event_impl.TicTacToeEvent;
-import com.mprtcz.tictactoeproject.net.interfaces.ConnectionProviderInitListener;
 import com.mprtcz.tictactoeproject.net.interfaces.SocketCreationListener;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import static com.mprtcz.tictactoeproject.message.EventObserver.EventType.CLIENT_CONNECTION_FAILED;
-import static com.mprtcz.tictactoeproject.message.EventObserver.EventType.CLIENT_SOCKET_CREATED;
-import static com.mprtcz.tictactoeproject.message.EventObserver.EventType.CLIENT_SOCKET_DISCONNECTED;
+import static com.mprtcz.tictactoeproject.message.EventObserver.EventType.*;
 
 /**
  * Created by sergey on 03.07.17.
@@ -21,11 +21,11 @@ class TicTacToeClientProvider {
     private final int NUMBER_OF_TRIES = 5;
     private final int WAITING_TIME = 1000;
 
-    private InetAddress address;
+    private final InetAddress address;
     private int tries = 0;
     private Thread thread;
 
-    TicTacToeClientProvider(InetAddress address) throws IOException {
+    TicTacToeClientProvider(InetAddress address) {
         this.address = address;
     }
 
@@ -33,7 +33,7 @@ class TicTacToeClientProvider {
         createSocket(portId, new SocketCreationListener() {
             @Override
             public void socketCreated(int port) {
-                EventObserver.getInstance().notifiObservers(
+                EventObserver.getInstance().notifyObservers(
                         new TicTacToeEvent.TicTakToeEventBuilder()
                         .setType(CLIENT_SOCKET_CREATED)
                         .setData(port)
@@ -51,7 +51,7 @@ class TicTacToeClientProvider {
                         e.printStackTrace();
                     }
                 } else {
-                    EventObserver.getInstance().notifiObservers(
+                    EventObserver.getInstance().notifyObservers(
                             new TicTacToeEvent.TicTakToeEventBuilder()
                             .setType(CLIENT_CONNECTION_FAILED)
                             .createEvent());
@@ -77,7 +77,7 @@ class TicTacToeClientProvider {
                         dataOutputStream.flush();
                     }
                     if (thread.isInterrupted()){
-                        EventObserver.getInstance().notifiObservers(
+                        EventObserver.getInstance().notifyObservers(
                                 new TicTacToeEvent.TicTakToeEventBuilder()
                                 .setType(CLIENT_SOCKET_DISCONNECTED)
                                 .setData(port)

@@ -1,9 +1,7 @@
 package com.mprtcz.tictactoeproject;
 
 import com.mprtcz.tictactoeproject.message.EventObserver;
-import com.mprtcz.tictactoeproject.net.interfaces.CommunicatorListener;
 import com.mprtcz.tictactoeproject.net.ConnectionProvider;
-import com.mprtcz.tictactoeproject.net.interfaces.ConnectionProviderStateListener;
 
 import java.io.IOException;
 import java.net.InetAddress;

@@ -24,7 +24,7 @@ public class EventObserver {
 
     private static EventObserver instance;
 
-    private HashMap<String, EventProviderInterface> observers;
+    private final HashMap<String, EventProviderInterface> observers;
 
     private EventObserver() {
         observers = new HashMap<>();
@@ -42,7 +42,7 @@ public class EventObserver {
         observers.remove(observer.getClass().getName());
     }
 
-    public void notifiObservers(Event event){
+    public void notifyObservers(Event event){
         Set<Map.Entry<String, EventProviderInterface>> set = observers.entrySet();
         for (Map.Entry<String, EventProviderInterface> entry : set  ) {
             entry.getValue().onReceiveEvent(event);

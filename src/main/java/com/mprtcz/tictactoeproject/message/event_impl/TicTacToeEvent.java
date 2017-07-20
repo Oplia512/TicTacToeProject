@@ -9,9 +9,9 @@ import com.mprtcz.tictactoeproject.message.EventObserver;
  */
 public class TicTacToeEvent implements Event{
 
-    private EventObserver.EventType eventType;
-    private String eventMessage;
-    private Object data; //TODO implement some kind of data
+    private final EventObserver.EventType eventType;
+    private final String eventMessage;
+    private final Object data; //TODO implement some kind of data
 
     private TicTacToeEvent(EventObserver.EventType eventType, String eventMessage, Object data) {
         this.eventType = eventType;

@@ -5,8 +5,14 @@ import com.mprtcz.tictactoeproject.message.EventObserver;
 import com.mprtcz.tictactoeproject.message.event_impl.TicTacToeEvent;
 import com.mprtcz.tictactoeproject.net.interfaces.SocketCreationListener;
 
-import java.io.*;
-import java.net.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.IOException;
+import java.net.BindException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import static com.mprtcz.tictactoeproject.message.EventObserver.EventType.*;
 import static com.mprtcz.tictactoeproject.net.ConnectionProvider.PORT;
@@ -20,7 +26,7 @@ class TicTacToeServerProvider {
     private static final int SOCKET_WAITING_TIME_OUT = 30000;
 
     private Thread thread;
-    private InetAddress inetAddress;
+    private final InetAddress inetAddress;
 
     TicTacToeServerProvider(final InetAddress inetAddress) {
         this.inetAddress = inetAddress;
@@ -30,7 +36,7 @@ class TicTacToeServerProvider {
         createServerSocket(PORT[0], new SocketCreationListener() {
             @Override
             public void socketCreated(int port) {
-                EventObserver.getInstance().notifiObservers(
+                EventObserver.getInstance().notifyObservers(
                         new TicTacToeEvent.TicTakToeEventBuilder()
                                 .setType(SERVER_SOCKET_CREATED)
                                 .setData(port)
@@ -39,7 +45,7 @@ class TicTacToeServerProvider {
 
             @Override
             public void creationFailed() {
-                EventObserver.getInstance().notifiObservers(
+                EventObserver.getInstance().notifyObservers(
                         new TicTacToeEvent.TicTakToeEventBuilder()
                                 .setType(SERVER_SOCKET_CONNECTION_FAILED)
                                 .setMessage("Port " + PORT[0] + " is busy. Trying port " + PORT[1]+ " ...")
@@ -48,7 +54,7 @@ class TicTacToeServerProvider {
                 createServerSocket(PORT[1], new SocketCreationListener() {
                     @Override
                     public void socketCreated(int port) {
-                        EventObserver.getInstance().notifiObservers(
+                        EventObserver.getInstance().notifyObservers(
                                 new TicTacToeEvent.TicTakToeEventBuilder()
                                         .setType(SERVER_SOCKET_CREATED)
                                         .setData(port)
@@ -57,7 +63,7 @@ class TicTacToeServerProvider {
 
                     @Override
                     public void creationFailed() {
-                        EventObserver.getInstance().notifiObservers(
+                        EventObserver.getInstance().notifyObservers(
                                 new TicTacToeEvent.TicTakToeEventBuilder()
                                         .setType(SERVER_SOCKET_CONNECTION_FAILED)
                                         .setMessage("Port " + PORT[0] + " and port " + PORT[1] + " are busy.")
@@ -86,7 +92,7 @@ class TicTacToeServerProvider {
                     try (Socket client = serverSocket.accept();DataInputStream inputStream = new DataInputStream(client.getInputStream());
                          DataOutputStream dataOutputStream = new DataOutputStream(client.getOutputStream())) {
 
-                        EventObserver.getInstance().notifiObservers(
+                        EventObserver.getInstance().notifyObservers(
                                 new TicTacToeEvent.TicTakToeEventBuilder()
                                 .setType(SERVER_CONNECTED_TO_OPPONENT)
                                 .setData(port)
@@ -96,7 +102,7 @@ class TicTacToeServerProvider {
                         while (!thread.isInterrupted()) {
                             message = inputStream.readUTF();
 
-                            EventObserver.getInstance().notifiObservers(
+                            EventObserver.getInstance().notifyObservers(
                                     new TicTacToeEvent.TicTakToeEventBuilder()
                                     .setType(OPPONENT_MESSAGE_RECEIVED)
                                     .setMessage(message)
@@ -106,7 +112,7 @@ class TicTacToeServerProvider {
                                 dataOutputStream.writeUTF("buy");
                                 dataOutputStream.flush();
                                 thread.interrupt();
-                                EventObserver.getInstance().notifiObservers(
+                                EventObserver.getInstance().notifyObservers(
                                         new TicTacToeEvent.TicTakToeEventBuilder()
                                         .setType(SERVER_SOCKET_DISCONNECTED)
                                         .setData(port)
@@ -121,7 +127,7 @@ class TicTacToeServerProvider {
                     }
                 } catch (EOFException eof){
                     thread.interrupt();
-                    EventObserver.getInstance().notifiObservers(
+                    EventObserver.getInstance().notifyObservers(
                             new TicTacToeEvent.TicTakToeEventBuilder()
                             .setType(SERVER_SOCKET_DISCONNECTED)
                             .createEvent());

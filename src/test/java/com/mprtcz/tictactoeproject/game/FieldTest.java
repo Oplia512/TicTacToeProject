@@ -18,7 +18,7 @@ public class FieldTest {
         return new Object[][] {
                 {0, 1, 0, 0},
                 {1, 2, 1, 0},
-                {15, 4, 3, 3}
+                {15, 4, saa3, 3}
         };
     }
 
