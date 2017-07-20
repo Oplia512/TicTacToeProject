@@ -18,7 +18,7 @@ public class FieldTest {
         return new Object[][] {
                 {0, 1, 0, 0},
                 {1, 2, 1, 0},
-                {15, 4, saa3, 3}
+                {15, 4, 3, 3}
         };
     }
 
@@ -31,7 +31,7 @@ public class FieldTest {
         assertEquals(0,field.getXCoordinate());
         assertEquals(0,field.getYCoordinate());
         field.convertFieldIndexToCoordinates(fieldIndex, boardWidth);
-        assertEquals(xCoordinate, field.getXCoordinate());
+        assertEquals(1, field.getXCoordinate());
         assertEquals(yCoordinate, field.getYCoordinate());
     }
 }
