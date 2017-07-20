@@ -31,7 +31,7 @@ public class FieldTest {
         assertEquals(0,field.getXCoordinate());
         assertEquals(0,field.getYCoordinate());
         field.convertFieldIndexToCoordinates(fieldIndex, boardWidth);
-        assertEquals(1, field.getXCoordinate());
+        assertEquals(xCoordinate, field.getXCoordinate());
         assertEquals(yCoordinate, field.getYCoordinate());
     }
 }
